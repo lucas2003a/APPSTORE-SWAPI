@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Title</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="container mt-3">
+        <div class="alert alert-primary" role="alert">
+            <strong>Planetas</strong> SW 
+        </div>
+        <div>
+          <form action="" id ="formulario-planeta">
+            <div>
+              <label for="codigoP" class="m-2"><strong>Código Planeta: </strong></label>
+              <input type="text" id="codigoP">
+              <button class="btn btn-outline-primary" id="consultar" type="button">Consutar</button>
+            </div>
+
+            <div>
+              <ul class="list-group m-2">
+                <li class="list-group-item"><strong>Nombre planeta: </strong> <span id="nombreP"></span></li>
+                <li class="list-group-item"><strong>Rotación :</strong> <span id="rotacion"></span></li>
+                <li class="list-group-item"><strong>Órbita :</strong> <span id="orbita"></span></li>
+                <li class="list-group-item"><strong>Diámetro :</strong> <span id="diametro"></span></li>
+                <li class="list-group-item"><strong>Clima :</strong> <span id="clima"></span></li>
+              </ul>
+            </div>
+
+              <div class="alert alert-success mt-3" role="alert">
+                <strong>Personas</strong> 
+                <h6 id="personas">Busque un planeta..</h6>  
+              </div>
+              <ul  class="list-group" >
+                <li class="list-group-item" id="listaPer"></li>
+              </ul>
+
+              <div class="alert alert-primary" role="alert">
+                <strong>Películas</strong> 
+                <h6 id="peliculas">Busque una persona..</h6>
+              </div>
+              <ul  calss="list-group-pelicula" id="listaPeli">
+              </ul>
+
+            </div>
+          </form>
+        </div>
+    </div>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded",() => {
+
+      let urlPeli = ``;
+
+      function $(id){
+        return document.querySelector(id);
+      }
+
+      function obtenerPelicula(urlPeli){
+        console.log("funciona");
+      }
+
+      $("#consultar").addEventListener("click",() => {
+        let codigoP = $("#codigoP").value;
+        let url = `https://swapi.dev/api/planets/${codigoP}/`;
+        
+        let icono1 = `../images/cara-feliz.png`; 
+        let imgPeli =`<img src='../images/claqueta.png'>`;
+
+        fetch(url)
+        .then(respuesta => respuesta.json())
+        .then(datosObtenidos => {
+          console.log(datosObtenidos)
+
+          $("#nombreP").innerHTML = datosObtenidos.name;
+          $("#rotacion").innerHTML = datosObtenidos.rotation_period;
+          $("#orbita").innerHTML = datosObtenidos.orbit_period;
+          $("#diametro").innerHTML = datosObtenidos.diameter;
+          $("#clima").innerHTML = datosObtenidos.climate;        
+          
+          const personas = datosObtenidos.residents;
+          console.log(personas);
+          
+          if(personas.length==0){
+            
+            $("#personas").innerHTML = "";
+            $("#listaPer").innerHTML = "<li>No se encontraron personas</li>";
+          }else{
+
+            $("#personas").innerHTML = "";
+            $("#listaPer").innerHTML = "<li>si se encontraron personas</li>";
+               
+            
+            personas.forEach(element => {
+
+              const list = document.querySelector("#personas");
+              
+              
+              
+              list.innerHTML = imgPer;
+
+              $("#listaPer").appendChild(list);
+
+            });
+          }
+
+          const peliculas = datosObtenidos.films;
+          console.log(peliculas);
+
+          if(peliculas.length==0){
+
+            $("#peliculas").innerHTML = "";
+            $("#listaPeli").innerHTML = "<li>No se encontraron películas</li>";
+
+          }else{
+            $("#peliculas").innerHTML = "";
+            $("#listaPeli").innerHTML =	"<li>Si se econtró registros</li>"
+
+            peliculas.forEach(element => {
+              console.log(element);
+
+              const listPeli = document.createElement("list")
+
+              element = imgPeli;
+
+              listPeli.innerHTML = imgPeli;
+
+              $("#listaPeli").appendChild(listPeli);
+            });
+          }
+
+          urlPeli = datosObtenidos.films;
+          console.log(urlPeli);
+        })
+    
+        .catch(e =>{
+          console.error(e);
+
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

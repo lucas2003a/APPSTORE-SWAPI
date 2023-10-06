@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h4>Nombre del personaje</h4>
+        <form action="">
+            <div>
+                <label for="estatura">Estatura</label>
+                <input type="text" id="estatura">
+            </div>
+            <label for="peso">peso</label>
+            <input type="text" id="peso">
+        </form>
+
+        <h5>peliculas</h5>
+        <ul>
+            <li>Consultar..</li>
+        </ul>
+    </div>
+
+    <input type="text" id="codigo" placeholder="código de personaje">
+    <button type="button" id="consultar">consultar</button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded",( ) =>{
+            function $(id){
+                return document.querySelector(id);
+            }
+
+            $("#consultar").addEventListener("click", () => {
+                let codigo = parseInt($("#codigo").value);
+                let url = `https://swapi.dev/api/people/${codigo}/`;
+
+                fetch(url)
+                .then(respuesta => respuesta.json())
+                .then(datosRecibidos => {
+                    console.log(datosRecibidos);
+                    //enviando el nombre del personaje
+                    $("h4").innerHTML = datosRecibidos.name;
+                    
+                    //enviando la estura  y peso
+                    $("#estatura").value = datosRecibidos.height;
+                    $("#peso").value = datosRecibidos.mass;
+                    
+                    //almacenar todas las perliculas en un objeto (colección)
+                    const peliculas = datosRecibidos.films;
+                    console.log(peliculas);
+
+                    if(peliculas.length == 0) {
+                        //no hay peliculas
+
+                        $("ul").innerHTML = "<li> no encontramos peliculas</li>";
+                    }else{
+                            //Eliminar todo el contenido del<ul>
+                            $("ul").innerHTML ="";
+                            //renderizar en <ul>
+                            peliculas.forEach(element => {
+                                // forma 1: $("ul").innerHTML += "<li>Película</li>";
+                                //const nuevoItem = document.createElement("li");
+                                 
+                                //forma 2:
+                                ///se crea un objeto <li>
+                                const nuevoItem = document.createElement("li");
+
+                                //asignar datos al nuevo objeto
+                                nuevoItem .innerHTML = element;
+
+                                //agregar el nuevo <li> 
+                                $("ul").appendChild(nuevoItem);
+
+                            });
+                    }
+
+                    
+                })
+                .catch(e => {
+                    resetUI();
+                    console.error("Error en la consulta: " + e)
+                });
+            })
+
+            function resetUI(){
+                $("h4").innerHTML = "no encontrado";
+                $("#estatura").value = "no encontrado";
+                $("#peso").value = "no encontrado";
+                $("ul").innerHTML = "no encontrado";
+            }
+        });
+    </script>
+</body>
+</html>
