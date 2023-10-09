@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" id="formulario-prueba">
+        <div>
+            <label for="apellidos">Apellidos</label>
+            <input type="text" id="apellidos">
+        </div>
+        <div>
+            <label for="nombres">Nombres</label>
+            <input type="text" id="nombres">
+        </div>
+        <div>
+            <label for="carrera">Carrera</label>
+            <select name="carrera" id="carrera">
+                <option value="">Seleccione</option>
+                <option value="1">Ingeniera de sofware</option>
+                <option value="2">Diseñpo gráfico digital</option>
+                <option value="3">Soldador</option>
+                <option value="4">Administrador</option>
+                <option value="5">Mecánico</option>
+            </select>
+        </div>
+        <button id="mostrar" class="btn btn-danger" type="button">Mostrar</button>
+        <button id="leer" class="btn btn-danger" type="button">Leer datos</button>
+        <button id="reiniciar" class="btn btn-danger" type="button">reinicar</button>  <!--type="rest" = reinicia el formulario-->
+        <button id="saludar" class="btn btn-danger" type="button">saludar</button>
+        <!--table.table.table-sm#tabla-productos>thead+tbody-->
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () =>{
+
+            /*Para referencciar objetos de manera rápida (estilo jquery)
+            crearemops una funcion que solicite un id y retorn la referencia*/
+            function $(id){
+                return document.querySelector(id);
+            }
+/*
+            const formulario = document.querySelector("#formulario-prueba"); //Formulario
+            const apellidos = document.querySelector("#apellidos"); //input
+            const nombres = document.querySelector("#nombres"); //input
+            const carrera = document.querySelector("#carrera"); //input
+
+            const mostrar = document.querySelector("#mostrar"); //botón
+            const leer = document.querySelector("#leer"); //botón
+            const reiniciar = document.querySelector("#reiniciar"); //botón
+*/
+            $("#mostrar").addEventListener("click",() => {
+
+                //Asignar valores
+                $("#apellidos").value = "Atuncar Valerio";
+                $("#nombres").value = "Lucas Alfredo";
+                $("#carrera").value = 3;
+                /*apellidos.value = "Atuncar Valerio";
+                nombres.value = "Lucas Alfredo";
+                carrera.value = 3;
+                */
+            });
+
+            /*
+            leer.addEventListener("click",() => {
+                console.log(apellidos.value);
+                console.log(nombres.value);
+                console.log(carrera.value);
+            });
+
+            reiniciar.addEventListener("click",() => {
+                formulario.reset();
+            });
+            */
+            $("#leer").addEventListener("click",() => {
+                console.log($("#apellidos").value);
+                console.log($("#nombres").value);
+                console.log($("#carrera").value);
+            });
+
+            $("#reiniciar").addEventListener("click",() => {
+               $ ("#formulario").reset();
+            });
+
+            $("#saludar").addEventListener("click",() => {
+                alert($("#apellidos").value + " " + $("#nombres").value + " " + $("#carrera").value);
+            });
+        });
+    </script>
+</body>
+</html>
