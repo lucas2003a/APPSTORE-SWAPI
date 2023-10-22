@@ -18,7 +18,7 @@ class Categoria extends Conexion{
   public function listarCategoria(){
     try {
       // 1. Preparamos la consulta
-      $consulta = $this->conexion->prepare("CALL spu_listar_categorias()");
+      $consulta = $this->conexion->prepare("CALL spu_categorias_listar()");
       // 2. Ejecutamos la consulta
       $consulta->execute();
       // 3. Devolvemos la consulta(array asociativo)

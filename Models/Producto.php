@@ -42,7 +42,28 @@ class Producto extends Conexion{
           $datos['fotografia'],
         )
       );
+
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+      
     } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
+  
+  public function eliminar($datos = []){
+    try{
+
+      $consulta = $this->conexion->prepare("call spu_products_eliminar(?)");
+      $status = $consulta->execute(
+        array(
+          $datos['idproducto']
+        )
+      );
+      return $status;
+
+    }
+    catch(Exception $e){
       die($e->getMessage());
     }
   }
