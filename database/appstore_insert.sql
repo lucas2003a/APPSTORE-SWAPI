@@ -297,3 +297,5 @@ call spu_usuarios_listar();
 call spu_usuarios_registrar('',1,2,'valerio','lucas','lucasatuncar1@gmail.com','222112003Lucas');
 call spu_usuarios_eliminar(1);
 select * from usuarios;
+update usuarios set inactive_at = null;
+alter table usuarios auto_increment = 1;

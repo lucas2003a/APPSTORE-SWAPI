@@ -142,7 +142,7 @@ begin
 	insert into usuarios
 		(avatar,idrol,idnacionalidad,apellidos,nombres,email,claveacceso)
         values
-        (nullif(avatar,''),_idrol,_idnacionalidad,_apellidos,_nombres,_email,_claveacceso);
+        (nullif(_avatar,''),_idrol,_idnacionalidad,_apellidos,_nombres,_email,_claveacceso);
         
         select @@last_insert_id 'idusuario';
 end $$
