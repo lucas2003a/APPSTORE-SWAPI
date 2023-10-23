@@ -12,7 +12,7 @@ class Nacionalidad extends Conexion{
 
     public function listar(){
         try{
-            $consulta = $this->conexion->prepare("call spu_listar_nacionalidades()");
+            $consulta = $this->conexion->prepare("call spu_nacionalidad_listar()");
             $consulta->execute();
 
             return $consulta->fetchAll(PDO::FETCH_ASSOC);

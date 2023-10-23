@@ -79,3 +79,82 @@ begin
 			idproducto = _idproducto;
 end $$
 delimiter ;
+
+drop procedure if exists spu_roles_listar;
+delimiter $$
+create procedure spu_roles_listar()
+begin
+	select 
+		idrol,
+		rol
+	from roles
+	where
+		inactive_at is null;
+end $$
+delimiter ;
+
+drop procedure if exists spu_nacionalidad_listar;
+delimiter $$
+create procedure spu_nacionalidad_listar()
+begin
+	select 
+		idnacionalidad,
+        nombrepais,
+        nombrecorto
+        from nacionalidades
+    where
+		inactive_at is null;
+end $$
+delimiter ;
+
+drop procedure if exists spu_usuarios_listar;
+delimiter $$
+create procedure spu_usuarios_listar()
+begin
+	select
+		usu.idusuario,
+        usu.avatar,
+        rl.rol,
+        nac.nombrepais,
+        usu.apellidos,
+        usu.nombres
+	from usuarios as usu
+    inner join roles as rl on rl.idrol = usu.idrol
+    inner join nacionalidades as nac on nac.idnacionalidad = usu.idnacionalidad
+    where
+		usu.inactive_at is null;
+end $$
+delimiter ;
+
+drop procedure if exists spu_usuarios_registrar;
+delimiter $$
+create procedure spu_usuarios_registrar
+(
+		in _avatar		varchar(100),
+        in _idrol		int,
+        in _idnacionalidad	int,
+        in _apellidos		varchar(40),
+        in _nombres			varchar(40),
+        in _email			varchar(60),
+        in _claveacceso		varchar(60)
+)
+begin
+	insert into usuarios
+		(avatar,idrol,idnacionalidad,apellidos,nombres,email,claveacceso)
+        values
+        (nullif(avatar,''),_idrol,_idnacionalidad,_apellidos,_nombres,_email,_claveacceso);
+        
+        select @@last_insert_id 'idusuario';
+end $$
+delimiter ;
+
+drop procedure if exists spu_usuarios_eliminar;
+delimiter $$
+create procedure spu_usuarios_eliminar(in _idusuario int)
+begin
+	update usuarios set
+		inactive_at = now()
+	where
+		idusuario = _idusuario;
+end $$
+delimiter ;

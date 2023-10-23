@@ -18,20 +18,23 @@
         <form action="" atocomplite="off" id="form-usuario">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    registrp de usuarios
+                    registro de usuarios
                 </div>
                 <div class="card-body">
                     <div class="mt-2">
                         <label for="avatar" class="from-label">Avatar</label>
-                        <input type="file" class="form-control" id="avatar" accpet=".jpg">
+                        <input type="file" class="form-control" id="avatar" accept=".jpg">
                     </div>
                     <div class="mt-2">
                         <label for="rol" class="form-label">Rol</label>
-                        <input type="text" class="form-control" id="rol" required>
+                        <select name="rol" id="idrol" class="form-select" required>
+                            <option value="">Selecccione</option>
+                            <option value="1">Otros</option>
+                        </select>
                     </div>
                     <div class="mt-2">
                         <label for="nacionalidad" class="form-label">Nacionalidad</label>
-                        <select name="" id="nacionalidad" class="form-select" required>
+                        <select name="" id="idnacionalidad" class="form-select" required>
                             <option value="">Seleccione</option>
                             <option value="1">otros</option>
                         </select>
@@ -53,8 +56,9 @@
                         <input type="password" class="form-control" id="claveacceso" required>
                     </div>
                 </div>
-                <div class="card-footer text-muted mt-2">
+                <div class="card-footer btn-group mt-2">
                     <button class="btn btn-primary bnt-sm" type="submit" id="guardar">Guardar</button>
+                    <a href="listar.php" type="button" class="btn btn-sm btn-success">Lista</a>
                 </div>
             </div>
         </form>
@@ -72,8 +76,41 @@
         function $(id){
             return document.querySelector(id);
         }
+
+        selctRol = document.querySelector("#idrol");
+        selctNac = document.querySelector("#idnacionalidad");
+        formUsu = document.querySelector("#form-usuario");
+
+        function getRol(){
+
+            const parametros = new FormData();
+            parametros.append("operacion","listar");
+
+            fetch(`../../controllers/rol.controller.php`,{
+                method : 'POST',
+                body: parametros
+            })
+                .then(result => result.json())
+                .then(data => {
+
+                    data.forEach(element => {
+                        
+                        const tagOption = document.createElement("option");
+
+                        tagOption.value = element.idrol;
+                        tagOption.innerText = element.rol;
+
+                        selctRol.appendChild(tagOption);
+                    });
+                })
+                .catch(e =>{
+                    console.error(e);
+                })
+        }
+
         
         function getNacionalidad(){
+
             const parametros = new FormData();
             parametros.append("operacion","listar");
 
@@ -85,10 +122,12 @@
                 .then(result => result.json())
                 .then(data =>{
                     data.forEach(element => {
+
                       const tagOption = document.createElement("option");
                       tagOption.value = element.idnacionalidad;
-                      tagOption.innerText = element.nombrepais  ;
-                      $("#nacionalidad").appendChild(tagOption);
+                      tagOption.innerText = element.nombrepais ;
+
+                      selctNac.appendChild(tagOption);
                     });
                 })
                 .catch(e =>{
@@ -101,8 +140,8 @@
             const parametros = new FormData();
             parametros.append("operacion","registrar");
             parametros.append("avatar",$("#avatar").files[0]);
-            parametros.append("rol",$("#rol").value);
-            parametros.append("nombrepais",$("#nacionalidad").value);
+            parametros.append("idrol",$("#idrol").value);
+            parametros.append("idnacionalidad",$("#idnacionalidad").value);
             parametros.append("apellidos",$("#apellidos").value);
             parametros.append("nombres",$("#nombres").value);
             parametros.append("email",$("#email").value);
@@ -114,19 +153,19 @@
             })
                 .then(result => result.json())
                 .then(data => {
-                    console.log(datos);
+                    console.log(data);
 
-                    if(datos.idusuario > 0){
-                        alert(`Usuario registrado con ID:+ ${datos.idusuario}`)
-                        $("#form-usuario").reset();
+                    if(data.idusuario > 0){
+                        alert(`Usuario registrado con ID: ${data.idusuario}`)
+                        formUsu.reset();
                     }
                 })
                 .catch(e => {
-                    console.error(e);
+                    console.error("este es el error: "+e);
                 });
         }
 
-        $("#form-usuario").addEventListener("submit",(event) =>{
+        formUsu.addEventListener("submit",(event) =>{
             event.preventDefault();
 
             if(confirm("¿Estas seguro de guardar?")){
@@ -134,7 +173,9 @@
             }
         })
 
+        //Carga automática
         getNacionalidad();
+        getRol();
     })
   </script>
 </body>

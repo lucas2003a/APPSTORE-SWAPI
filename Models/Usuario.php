@@ -12,7 +12,7 @@ class Usuario extends Conexion{
 
     public function listar(){
         try{
-            $consulta = $this->conexion->prepare("call spu_listar_usuarios()");
+            $consulta = $this->conexion->prepare("call spu_usuarios_listar()");
             $consulta->execute();
 
             return $consulta->fetchAll(PDO::FETCH_ASSOC);
@@ -23,8 +23,9 @@ class Usuario extends Conexion{
 
     public function registrar($datos = []){
         try{
-            $consulta = $this->conexion->prepare("call spu_registrar_usuarios(?,?,?,?,?,?,?)");
+            $consulta = $this->conexion->prepare("call spu_usuarios_registrar(?,?,?,?,?,?,?)");
             $consulta->execute(array(
+
                 $datos['avatar'],
                 $datos['idrol'],
                 $datos['idnacionalidad'],
@@ -32,7 +33,10 @@ class Usuario extends Conexion{
                 $datos['nombres'],
                 $datos['email'],
                 $datos['claveacceso'],
+                
             ));
+
+            return $consulta->fetch(PDO::FETCH_ASSOC);
         }
         catch(Exception $e){
             die($e->getMessage());
@@ -41,8 +45,8 @@ class Usuario extends Conexion{
 
     public function eliminar($datos = []){
         try{
-            $consulta = $this->conexion->preapare("call spu_eliminar_usuario(?)");
-            $status = execute(
+            $consulta = $this->conexion->prepare("call spu_usuarios_eliminar(?)");
+            $status = $consulta->execute(
                 array(
                     $datos['idusuario']
                 )

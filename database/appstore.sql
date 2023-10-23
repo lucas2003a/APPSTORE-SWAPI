@@ -24,5 +24,43 @@ CREATE TABLE productos(
 	CONSTRAINT fk_idcategoria FOREIGN KEY (idcategoria) REFERENCES categorias(idcategoria)
 )ENGINE = INNODB;
 
+drop table if exists roles;
+create table roles
+(
+	idrol		int primary key auto_increment,
+    rol			varchar(30)		not null,
+	create_at		date				not null 	default now(),
+    update_at		date				null,
+    inactive_at		date				null,
+    constraint uk_rol_roles unique(rol)
+)engine = innodb;
 
+drop table if exists nacionalidades;
+create table nacionalidades
+(
+	idnacionalidad		int primary key auto_increment,
+    nombrepais			varchar(60)  	not null,
+    nombrecorto			char(3)			not null,
+	create_at		date				not null 	default now(),
+    update_at		date				null,
+    inactive_at		date				null,
+    constraint uk_nombrepais_nac unique(nombrepais,nombrecorto)
+)engine = innodb;
 
+drop table if exists usuarios;
+create table usuarios
+(
+	idusuario		int 				primary key 	auto_increment,
+    avatar			varchar(100)		null,
+    idrol			int 				not null,
+    idnacionalidad	int					not null,
+    apellidos		varchar(40) 		not null,
+    nombres			varchar(40)			not null,
+    email			varchar(60)			not null,
+    claveacceso		varchar(60)			not null,
+    create_at		date				not null 	default now(),
+    update_at		date				null,
+    inactive_at		date				null,
+	constraint fk_idrol_usu	foreign key(idrol) references roles(idrol),
+    constraint fk_idnacionalida_usu	foreign key(idnacionalidad) references nacionalidades(idnacionalidad)
+)engine = innodb;

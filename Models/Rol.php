@@ -13,7 +13,7 @@ class Rol extends Conexion{
     public function listar(){
 
         try{
-            $consulta = $this->conexion->prepare("call spu_listar_roles()");
+            $consulta = $this->conexion->prepare("call spu_roles_listar()");
             $consulta->execute();
 
             return $consulta->fetchAll(PDO::FETCH_ASSOC);

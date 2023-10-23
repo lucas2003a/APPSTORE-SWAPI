@@ -1,5 +1,8 @@
 <?php
 
+//Configurar la zona local
+date_default_timezone_set('America/Lima');
+
 require_once '../models/Usuario.php';
 
     $usuario = new Usuario();
@@ -12,19 +15,42 @@ if(isset($_POST['operacion'])){
             echo json_encode($usuario->listar());
 
             break;
-        
-            case 'registrar':
 
-                $datosForm =[
-                    'avatar'    => '',
-                    'idrol'     => $_POST['idrol'],
-                    'idnacionalidad'  => $_POST['idnacionalidad'],
-                    'apellidos' => $_POST['apellidos'],
-                    'nombres'   => $_POST['nombres'],
-                    'email'     => $_POST['email'],
-                    'claveacceso'  => $_POST['claveacceso'],
-                ];
+        case 'registrar':
+
+            //Generando el nombre del avatar
+            $ahora = date('dmYhis');
+            $nombreArchivo = sha1($ahora) . ".jpg";
+
+            $datosForm = [
+
+                "avatar"            => $nombreArchivo,
+                "idrol"             =>$_POST['idrol'],
+                "idnacionalidad"    =>$_POST['idnacionalidad'],
+                "apellidos"         =>$_POST['apellidos'],
+                "nombres"           =>$_POST['nombres'],
+                "email"             =>$_POST['email'],
+                "claveacceso"       =>password_hash($_POST['claveacceso'],PASSWORD_BCRYPT),
+            ];
+
+            if(move_uploaded_file($_FILES['avatar']['tmp_name'],"../images/" . $nombreArchivo)){
                 
-                echo json_encode($usuario->registrar($datosForm));
+                //Enviamos el arreglo al método
+                $datosForm['avatar'] = $nombreArchivo;
+            }
+
+            echo json_encode($usuario->registrar($datosForm));
+
+            break; 
+        
+        case 'eliminar':
+
+            $datosForm = [
+                "idusuario" => $_POST['idusuario']
+            ];
+
+            echo json_encode($usuario->eliminar($datosForm));
+
+            break;
     }
 }
