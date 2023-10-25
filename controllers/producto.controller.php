@@ -1,4 +1,5 @@
 <?php
+
 //Configurar la zona local
 date_default_timezone_set("America/Lima");
 
@@ -16,8 +17,8 @@ if (isset($_POST['operacion'])){
       echo json_encode($producto->listar());
       // render... ENVIAR ETIQUETAS / DATOS NAVEGADOR
       break;
-    case 'registrar':
       
+    case 'registrar':
       //Generar un nombre a partir del momento exacto
       $ahora = date('dmYhis');
       $nombreArchivo = sha1($ahora) . ".jpg";
@@ -31,7 +32,7 @@ if (isset($_POST['operacion'])){
         'fotografia'    => $nombreArchivo
       ];
 
-        if(move_uploaded_file($_FILES['fotografia']['tmp_name'],"../images/" . $nombreArchivo));{
+       if(move_uploaded_file($_FILES['fotografia']['tmp_name'],"../images/" . $nombreArchivo));{
           // Enviamos el aareglo al método
           $datosEnviar["fotografia"] = $nombreArchivo;
           //var_dump($_FILES['fotografia']);
@@ -46,6 +47,7 @@ if (isset($_POST['operacion'])){
       echo $producto-> eliminar($datosEnviar);
 
       break;
+
 
   }
 

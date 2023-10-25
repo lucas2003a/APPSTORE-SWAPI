@@ -58,20 +58,4 @@ class Usuario extends Conexion{
             die($e->getMessage());
         }
     }
-
-    public function login($datos = []){
-        try{
-            $consulta = $this->conexion->prepare("call spu_usuarios_login(?)");
-            $consulta->execute(
-                array(
-                    $datos['email']
-                )
-            );
-
-            return $consulta->fetch(PDO::FETCH_ASSOC);
-        }
-        catch(Exception $e){
-            die($e->getMessage());
-        }
-    }
 }
