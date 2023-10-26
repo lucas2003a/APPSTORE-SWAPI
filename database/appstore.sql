@@ -64,3 +64,29 @@ create table usuarios
 	constraint fk_idrol_usu	foreign key(idrol) references roles(idrol),
     constraint fk_idnacionalida_usu	foreign key(idnacionalidad) references nacionalidades(idnacionalidad)
 )engine = innodb;
+
+drop table if exists datasheet;
+create table datasheet
+(
+	idespeficacion		int 		primary key auto_increment,
+    idproducto			int			not null,
+    clave				varchar(50) not null,
+    valor				varchar(300) not null,
+	create_at			date				not null 	default now(),
+    update_at			date				null,
+    inactive_at			date				null,
+    constraint fk_idproducto_data foreign key(idproducto) references productos(idproducto),
+    constraint uk_valor_data unique(clave)
+)engine = innodb;
+
+drop table if exists galeria;
+create table galeria
+(
+	idgaleria			int primary key auto_increment,
+    idproducto			int					not null,
+    rutafoto			varchar(250)		not null,
+	create_at			date				not null 	default now(),
+    update_at			date				null,
+    inactive_at			date				null,
+    constraint fk_idproducto_gal foreign key(idproducto) references productos(idproducto)
+)engine = innodb;

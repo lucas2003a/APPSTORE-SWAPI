@@ -218,6 +218,31 @@ begin
 end $$
 delimiter ;
 
+drop procedure if exists spu_datasheet_listar;
+delimiter $$
+create procedure spu_datasheet_listar()
+begin
+	select 
+		dat.iddata,
+        pro.producto,
+        dat.clave,
+        dat.valor
+    from datasheet as dat
+    inner join productos as pro on pro.idproducto = dat.idproducto;
+    where
+		inactive_at is null;
+end;
+delimiter ;
+
+
+drop procedure if exists spu_galeria_listar;
+delimiter $$
+create procedure spu_galeria_listar()
+begin
+	select from galeria
+end $$
+delimiter ; 
+
 select * from productos;
 call spu_products_oferta();
 call spu_products_categoria('1');
