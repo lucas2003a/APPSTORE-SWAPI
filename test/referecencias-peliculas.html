@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Title</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+
+  <!-- CSS del gift de carga -->
+    <style>
+      .carga {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+      }
+    </style>
+
+</head>
+
+<body>
+    <div class="container mt-3">
+        <div class="alert alert-primary" role="alert">
+            <strong>Planetas</strong> SW 
+        </div>
+        <div>
+
+
+          <!-- Datos generales -->
+
+          <form action="" id ="formulario-planeta">
+            <div>
+              <div class="input-group">
+                <input type="text" id="codigoP" class="form-control" placeholder="Código Planeta:" autofocus>
+                <button class="btn btn-outline-primary" id="consultar" type="button">Consutar</button>
+              </div>
+
+            <div>
+              <ul class="list-group m-2">
+                <li class="list-group-item"><strong>Nombre planeta : </strong><span id="nombreP"></span></li>
+                <li class="list-group-item"><strong>Rotación : </strong><span id="rotacion"></span></li>
+                <li class="list-group-item"><strong>Órbita : </strong><span id="orbita"></span></li>
+                <li class="list-group-item"><strong>Diámetro : </strong><span id="diametro"></span></li>
+                <li class="list-group-item"><strong>Clima : </strong><span id="clima"></span></li>
+              </ul>
+            </div>
+            
+            <!-- Datos de la persona -->
+
+              <div class="alert alert-success mt-3" role="alert">
+                <strong>Personas</strong>   
+              </div>
+
+            <!-- Renderizado de los datos de la persona -->
+
+              <ul  class="list-group" id="listaPer">
+                <li class="list-group-item">Busque un planeta..</li>
+              </ul>
+            
+            <!-- acordeon con los datos de la persona -->
+
+              <div>
+                <div class="accordion mt-3 d-none" id="datosPersona">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingNom">
+                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#nomAcordeon" aria-expanded="true" aria-controls="nomAcordeon">
+                        <strong>Nombres de la persona</strong>
+                      </button>
+                    </h2>
+                    <div id="nomAcordeon" class="accordion-collapse collapse show" aria-labelledby="headingNom" data-bs-parent="#datosPersona">
+                      <div class="accordion-body">
+                        <h6 id="nombrePer">Este es el nombre</h6>
+                      </div>
+                    </div>
+                    <h2 class="accordion-header" id="headingGen">
+                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#genAcordeon" aria-expanded="true" aria-controls="genAcordeon">
+                        <strong>Género</strong>
+                      </button>
+                    </h2>
+                    <div id="genAcordeon" class="accordion-collapse collapse show" aria-labelledby="headingGen" data-bs-parent="#datosPersona">
+                      <div class="accordion-body">
+                        <h6 id="generoPer">Este es el género de la persona</h6>
+                      </div>
+                    </div> 
+                  </div>                  
+                </div>
+              </div>
+
+           <!-- datos de la pelicula -->
+              <div class="alert alert-primary mt-3" role="alert">
+                <strong>Películas</strong> 
+              </div>
+
+          <!-- renderizado de los datos de la pelicula -->
+              <ul  class="list-group" id="listaPeli">
+                <li class="list-group-item">Busque un planeta..</li>
+              </ul>
+            </div>
+          </form>
+        
+        <!-- acordeon con los datos de la película -->
+
+        <div>
+          <div class="accordion mt-3 mb-4 d-none" id="datosPelicula">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTitulo">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#tituloaAcordeon" aria-expanded="true" aria-controls="tituloaAcordeon">
+                  <strong>Título</strong>
+                </button>
+              </h2>
+              <div id="tituloaAcordeon" class="accordion-collapse collapse show" aria-labelledby="headingTitulo" data-bs-parent="#datosPelicula">
+                <div class="accordion-body">
+                  <h6 id="tituloPeli">Este es el Título</h6>
+                </div>
+              </div> 
+              <h2 class="accordion-header" id="headingDirec">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#DirecAcodeon" aria-expanded="true" aria-controls="DirecAcodeon">
+                  <strong>Director</strong>
+                </button>
+              </h2>
+              <div id="DirecAcodeon" class="accordion-collapse collapse show" aria-labelledby="headingDirec" data-bs-parent="#datosPelicula">
+                <div class="accordion-body">
+                  <h6 id="directPeli">este es el director de la pelicula</h6>
+                </div>
+              </div>
+
+            </div>                  
+          </div>
+        </div>
+
+        <!-- gift de carga -->
+
+          <div class="text-center carga d-none" id="carga">
+            <img src="../images/loading-11.gif" alt="cargando" >
+          </div>
+
+        </div>
+    </div>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded",() => {
+
+
+      //Funcion "$"
+
+      function $(id){
+        return document.querySelector(id);
+      }     
+
+      //Funcion para buscar un planeta
+
+      function obtenerPlaneta(){
+
+        const codigoP = parseInt($("#codigoP").value);
+        const url = `https://swapi.dev/api/planets/${codigoP}/`;
+
+        fetch(url)
+        .then(result => result.json())
+        .then(data => {
+          console.log(data)
+
+          $("#carga").classList.remove("d-none");
+          //Renderizando datos generales
+
+          $("#nombreP").innerHTML = data.name;
+          $("#rotacion").innerHTML = data.rotation_period;
+          $("#orbita").innerHTML = data.orbital_period;
+          $("#diametro").innerHTML = data.diameter;
+          $("#clima").innerHTML = data.climate;
+
+          $("#carga").classList.add("d-none");
+
+          //Renderizando personas
+
+          const personas = data.residents;
+          
+          $("#listaPer").innerHTML = "";
+
+          if(personas.length == 0){
+
+            $("#listaPer").innerHTML = "<li class='list-group-item mb-4'>No encontramos personas</li>";
+
+            //Ocultar el acordeón
+
+            $("#datosPersona").classList.add("d-none");
+
+          }else{
+
+            personas.forEach(element => {
+
+              //Nueva imagen a renderizar
+              
+              const liPer = document.createElement("li"); 
+              
+              const botonPer = document.createElement("a");
+              const imgper = document.createElement("img")
+
+              //Agregamos la imagen
+
+              imgper.setAttribute("src","../images/cara-feliz.png")
+              imgper.setAttribute("class","m-4")
+
+              //Agregamos al clase list-group-item al elemento "li"
+              
+              liPer.classList.add("list-group-item")
+
+              //Agregamos la dirección del WS de consulta
+
+              liPer.classList.add("personas"); //Identificador
+              botonPer.setAttribute("href","#");
+              
+              liPer.setAttribute("data-wsper",element);
+
+              //Agregamos la imagen al enlace
+              
+              botonPer.appendChild(imgper);           
+
+              //Agregamos el enlace a la lista
+
+              liPer.appendChild(botonPer);
+
+              //Agregamos el nuevo botón
+              
+              $("#listaPer").appendChild(liPer);
+            });
+          }
+
+          //Renderizado peliculas
+
+          const peliculas = data.films;
+
+          $("#listaPeli").innerHTML = "";
+
+          if(peliculas.length == 0){
+
+            $("#listaPeli").innerHTML = "<li class='list-group-item mb-4' >No encontramos peliculas</li>";
+
+            //Ocultar el acordeón
+
+            $("#datosPelicula").classList.add("d-none");
+
+          }else{
+
+            peliculas.forEach(element => {
+              
+              //Creamos los elementos
+
+              const liPeli      = document.createElement("li");
+              const buttonPeli  = document.createElement("a");
+              const imgPeli     = document.createElement("img");
+
+              //Asignamos los atributos
+
+              liPeli.classList.add("list-group-item");
+
+              buttonPeli.setAttribute("href","#");
+
+              imgPeli.setAttribute("src","../images/claqueta.png");
+              imgPeli.setAttribute("class","m-4");
+
+              //Agregamos la direccion del ws
+
+              liPeli.classList.add("peliculas"); //Identificador
+              liPeli.setAttribute("data-wspeli",element);
+
+              //Agregamos la imegen al botón
+
+              buttonPeli.appendChild(imgPeli);
+
+              //Agregamos el botón a la lista
+
+              liPeli.appendChild(buttonPeli);
+
+              //Ubicamos la lista con el id del elemento a renderizar
+
+              $("#listaPeli").appendChild(liPeli);
+
+            });
+
+          }
+
+        })
+        .catch(e =>{
+          console.error(e)
+        });
+      }
+
+      //Funcion para obtener los datos de la persona, con un parámetro
+
+      function obtenerPersona(URL_PERSONA){
+        $("#datosPersona").classList.add("d-none");
+        $("#carga").classList.remove("d-none");
+
+        fetch(URL_PERSONA)
+        .then(result => result.json())
+        .then(data => {
+          $("#nombrePer").innerHTML = data.name
+          $("#generoPer").innerHTML = data.gender
+          $("#datosPersona").classList.remove("d-none");
+          $("#carga").classList.add("d-none");
+
+          window.location.href = "#datosPersona";
+        })
+        .catch(e => {
+          console.error(e)
+        });
+      }
+
+      //Funcion para obtenere datos de la película
+
+      function obtenerPelicula(URL_PELICULA){
+
+        $("#datosPelicula").classList.add("d-none");
+        $("#carga").classList.remove("d-none");
+
+        fetch(URL_PELICULA)
+        .then(result => result.json())
+        .then(data => {
+
+          $("#tituloPeli").innerHTML = data.title;
+          $("#directPeli").innerHTML = data.director;
+          $("#datosPelicula").classList.remove("d-none");
+          $("#carga").classList.add("d-none");
+
+          window.location.href = "#datosPelicula";
+        })
+        .catch(e => {
+          console.error(e);
+        });
+      }
+
+      //Funcion para reinicar el fromulario mientras carga
+      function reiniciar(){
+        $("#carga").classList.remove("d-none");
+
+        $("#datosPersona").classList.add("d-none");
+        $("#datosPelicula").classList.add("d-none");
+
+        $("#nombreP").innerHTML = "";
+        $("#rotacion").innerHTML = "";
+        $("#orbita").innerHTML = "";
+        $("#diametro").innerHTML = "";
+        $("#clima").innerHTML = "";
+        $("#nombrePer").innerHTML = "";
+        $("#generoPer").innerHTML = "";
+        $("#tituloPeli").innerHTML = "";
+        $("#directPeli").innerHTML = "";        
+      }
+
+      //Al dar click en la lista(peliculas)
+
+      $("#listaPeli").addEventListener("click", (event) => {
+
+        if(event.target.classList.contains("peliculas")){
+          const urlPeli = event.target.dataset.wspeli;
+            
+          obtenerPelicula(urlPeli);
+        }
+      });
+
+      //Al dar click en la lista(persona)
+
+      $("#listaPer").addEventListener("click", (event) => {
+        
+        if(event.target.classList.contains("personas")){
+          const url = event.target.dataset.wsper;
+          obtenerPersona(url);
+
+        }
+      });
+
+      //Al dar click en el botón
+
+      $("#consultar").addEventListener("click", () =>{       
+        reiniciar();
+        obtenerPlaneta();
+      });
+
+      //Al presionar la tecla enter
+
+      $("#codigoP").addEventListener("keypress", (event) => {
+        if(event.keycode == 13){
+          reiniciar();
+          obtenerPlaneta();
+        }
+      });
+
+    });
+  </script>
+</body>
+
+</html>
