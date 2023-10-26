@@ -85,55 +85,71 @@ require_once '../header2.php';
           .then(result => result.json())
           .then(data => {
             console.log(data);
-
-            let numCard = 1;
-
-            card.innerHTML = "";
-
-            data.forEach(element => {
+            if(data.length == 0){
+              car.innerHTML = "<h1>pronto tendremos más novedades</h1>"
+            }else{
               
-              let nuevoCard = ``;
+              //Evalua si hay una foto
+              
 
-              nuevoCard = `
+              //Render
+              let numCard = 1;
+  
+              card.innerHTML = "";
+  
+              data.forEach(element => {
 
-              <div class='col-md-3'>
-                <div class='m-2'>
-                  <div class='card text-start'>
-                    <div>
-                    <img style ='width: 100%;max-height: 50%;'src='../../images/${element.fotografia}' alt='${element.descripcion}'>
-                    </div>
-                      <div class="card-body" >
-                        <h4 class="card-title">${element.descripcion}</h4>
-                        <p class="card-text">$/${element.precio}</p>
+                const rutaImagen =(element.fotografia == null) ? "noImage.jfif" : element.fotografia;
+                
+                let nuevoCard = ``;
+  
+                nuevoCard = `
+  
+                <div class='col-md-3'>
+                  <div class='m-2'>
+                    <div class='card text-start'>
+                      <div>
+                      <img style ='width: 100%;max-height: 50%;'src='../../images/${rutaImagen}' alt='${element.descripcion}'>
                       </div>
-                      <div class="card-footer">
-                        <div class='d-grid'>
-                          <button type='submit' class='btn btn-sm btn-success'>Lo quiero!</button>
+                        <div class="card-body" >
+                          <h4 class="card-title">${element.descripcion}</h4>
+                          <p class="card-text">$/${element.precio}</p>
+                        </div>
+                        <div class="card-footer">
+                          <div class='d-grid'>
+                            <button type='submit' class='btn btn-sm btn-success'>Lo quiero!</button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+  
+                `;
+  
+                card.innerHTML += nuevoCard;
+              });
 
-              `;
+            }
 
-              card.innerHTML += nuevoCard;
-            });
 
           })
           .catch(e =>{
-            consol.error(e);
+            console.error(e);
           });
       }
 
-      getCategorias();
 
+      //Al dar click en el boton buscar
       $("#form-catalogo").addEventListener("submit",(event) =>{
 
         event.preventDefault();
         listarOfertas();
       });
 
+      //Al dar cambiar de categoria en el select
+      $("#categoria").addEventListener("change",listarOfertas);
+
+      getCategorias();
       listarOfertas();
 
     });

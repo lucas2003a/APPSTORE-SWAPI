@@ -107,3 +107,4 @@ if(isset($_GET['operacion'])){
         header("Location:../index.php");
     }
  }
+

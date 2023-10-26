@@ -294,8 +294,10 @@ insert into roles(rol)
 call spu_roles_listar();
 
 call spu_usuarios_listar();
+
 call spu_usuarios_registrar('',3,1,'Pacheco Janampa','Joseph Tadeo','joshep@gmail.com','222112003Lucas');
 call spu_usuarios_eliminar(1);
 select * from usuarios;
 update usuarios set email= 'lucasatuncar1@gmail.com' where idusuario = '2';
+
 alter table usuarios auto_increment = 1;

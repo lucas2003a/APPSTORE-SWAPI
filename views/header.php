@@ -46,9 +46,13 @@ if(!isset($_SESSION["status"]) || $_SESSION["status"] == false){
                     -->
                     <?php
                     $listaPermisos = $permisos[$_SESSION["rol"]];
-                    echo "<a class='nav-link' href='catalogos/catalogo.php'>catalogo-Lista</a>";
+                    
+
+                        echo "<a class='nav-link' href='catalogos/catalogo.php'>catalogo-Lista</a>";
+                        
                     foreach($listaPermisos as $opcion){
-                        if($opcion != "index" && $opcion != "catalogos"){
+
+                        if($opcion != "index" && $opcion !="catalogos"){
                             echo "
                             <li class='nav-item'>
                                 <a class='nav-link' href='{$opcion}/listar.php'>{$opcion}-Lista</a>

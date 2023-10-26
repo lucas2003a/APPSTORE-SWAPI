@@ -230,4 +230,5 @@ select * from roles;
 update roles set rol = 'ADMIN' where idrol = '1';
 insert into roles(rol)value('ASIST');
 
+
 call spu_usuarios_login('lucasatuncar1@gmail.com');
