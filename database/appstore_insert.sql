@@ -24,7 +24,7 @@ alter table productos auto_increment = 1;
 
 
 CALL spu_productos_listar();
-CALL spu_productos_registrar(3,'Laptop Lenovo i9',4500,'12 meses', '');
+CALL spu_productos_registrar(3,'Laptop Lenovo i6',4500,'04 meses', '');
 call spu_products_eliminar();
 CALL spu_productos_buscar(1);
 
@@ -288,16 +288,47 @@ call spu_nacionalidad_listar();
 
 insert into roles(rol)
 			values
-            ('Administrador'),
-            ('Invitado');
+            ('ADMIN'),
+            ('INV');
+insert into roles(rol)value("ASIST");
 
 call spu_roles_listar();
 
 call spu_usuarios_listar();
 
-call spu_usuarios_registrar('',3,1,'Pacheco Janampa','Joseph Tadeo','joshep@gmail.com','222112003Lucas');
-call spu_usuarios_eliminar(1);
-select * from usuarios;
+call spu_usuarios_registrar('','2',1,'Lucas Alfredp','Atuncar Valerio','lucasatuancar1@gmail.com','123');
+call spu_usuarios_eliminar('1');
+select * from productos;
+
 update usuarios set email= 'lucasatuncar1@gmail.com' where idusuario = '2';
 
-alter table usuarios auto_increment = 1;
+create table roles;
+alter table roles auto_increment = 1;
+
+call spu_galeria_listar();
+
+select * from productos;
+
+call spu_products_actualizar(2,3,'Laptop Lenovo i8',4500.00,'10 meses','');
+
+-- clave 123
+update usuarios set email ='lucas@gmail.com';
+update usuarios set claveacceso = '$2y$10$e.utwy1/hS4KJdeF.F.VGuJ3/9CJCoqq5Ot.2f8gXYEp.9rjt0Ata';
+select * from productos;
+select * from usuarios;
+update usuarios set email = 'lucasatuncar1@gmail.com' where idusuario = '2';
+update roles set rol = 'ADMIN' where idrol = '1';
+insert into roles(rol)value('ASIST');
+
+call spu_products_categoria('0');
+
+select * from datasheet;
+call spu_datasheet_registrar(3,'n','n1');
+call spu_datasheet_listar('1');
+call spu_datasheet_actualizar(1,1,'aa','a1');
+
+select * from galeria;
+call spu_galeria_registrar(5,'f24.jpg');
+call spu_galeria_listar('5'); 
+call spu_galeria_actualizar(1,1,'f137.jpg');
+

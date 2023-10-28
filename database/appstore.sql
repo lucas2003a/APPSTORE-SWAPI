@@ -68,7 +68,7 @@ create table usuarios
 drop table if exists datasheet;
 create table datasheet
 (
-	idespeficacion		int 		primary key auto_increment,
+	idespecificacion		int 		primary key auto_increment,
     idproducto			int			not null,
     clave				varchar(50) not null,
     valor				varchar(300) not null,
