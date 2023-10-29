@@ -308,6 +308,7 @@ alter table roles auto_increment = 1;
 call spu_galeria_listar();
 
 select * from productos;
+update productos set fotografia = '28670d018c81c75aa22b3ed1699beee4b1c1f174.jpg' where idproducto = '1';
 
 call spu_products_actualizar(2,3,'Laptop Lenovo i8',4500.00,'10 meses','');
 
@@ -322,6 +323,9 @@ insert into roles(rol)value('ASIST');
 
 call spu_products_categoria('0');
 
+call spu_productos_listar();
+call spu_productos_obtener('1');
+
 select * from datasheet;
 call spu_datasheet_registrar(3,'n','n1');
 call spu_datasheet_listar('1');
@@ -329,6 +333,6 @@ call spu_datasheet_actualizar(1,1,'aa','a1');
 
 select * from galeria;
 call spu_galeria_registrar(5,'f24.jpg');
-call spu_galeria_listar('5'); 
-call spu_galeria_actualizar(1,1,'f137.jpg');
+call spu_galeria_listar('1'); 
+call spu_galeria_actualizar(6,1,'28670d018c81c75aa22b3ed1699beee4b1c1f174.jpg');
 

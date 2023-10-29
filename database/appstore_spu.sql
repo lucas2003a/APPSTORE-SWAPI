@@ -1,18 +1,34 @@
 USE appstore;
 
-
-DELIMITER $$
-CREATE PROCEDURE spu_productos_listar ()
-BEGIN 
+drop view if exists vw_productos_lista;
+create view vw_productos_lista 
+as
 	SELECT pro.idproducto, 
 	cat.categoria, 
 	pro.descripcion, 
 	pro.precio, 
 	pro.garantia, 
-	pro.fotografia
+	pro.fotografia,
+    pro.create_at
 	FROM productos pro
 	INNER JOIN categorias cat ON cat.idcategoria = pro.idcategoria
 	WHERE pro.inactive_at IS NULL;
+
+drop procedure if exists spu_productos_listar;
+DELIMITER $$
+CREATE PROCEDURE spu_productos_listar()
+BEGIN 
+	SELECT * from vw_productos_lista; 
+END $$
+DELIMITER ; 
+
+drop procedure if exists spu_productos_obtener;
+DELIMITER $$
+CREATE PROCEDURE spu_productos_obtener(in _idproducto int)
+BEGIN 
+	SELECT * from vw_productos_lista
+    where
+		idproducto = _idproducto; 
 END $$
 DELIMITER ; 
 

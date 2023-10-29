@@ -57,6 +57,38 @@ if (isset($_POST['operacion'])){
       echo json_encode($producto->listarOfertasCat($datosEnviar));
 
       break;
+
+    case 'obtener':
+
+      $datosEnviar=[
+        "idproducto" => $_POST['idproducto']
+      ];
+
+      echo json_encode($producto->getProducto($datosEnviar));
+      break;
+
+    case 'actualizar':
+
+      $ahora = date("dmYhis");
+      $nombreArchivo = sha1($ahora) . ".jpg";
+
+      $datosEnviar = [
+        "idproducto"  => $_POST['idproducto'],
+        "idcategoria" => $_POST['idcategoria'],
+        "descripccion"=> $_POST['descripccion'],
+        "precio"      => $_POST['precio'],
+        "garantia"    => $_POST['garantia'],
+        "fotografia"  => $nombreArchivo,
+      ];
+
+      if(move_uploaded_file($_FILE['fotografia']['temp_name'],"../images/" . +$nombreArchivo));{
+
+        $datosEnviar['fotografia'] = $nombreArchivo;
+      }
+
+      echo json_encode($producto->actualizarProducto($datosEnviar));
+      
+      break;
   }
 
 }

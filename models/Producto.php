@@ -68,8 +68,8 @@ class Producto extends Conexion{
     catch(Exception $e){
       die($e->getMessage());
     }
+    
   }
-
 
 
   public function listarOfertasCat($datos = []){
@@ -88,6 +88,44 @@ class Producto extends Conexion{
     }
   }
 
+  public function getProducto($datos = []){
+    try{
+
+      $consulta = $this->conexion->prepare("call spu_productos_obtener(?)");
+      $consulta->execute(
+        array(
+          $datos['idproducto']
+        )
+      );
+
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+    
+  }
+
+  public function actualizarProducto($datos=[]){
+
+    try{
+      $consulta = $this->conexion->prepare("call spu_products_actualizar(?,?,?,?,?,?)");
+      $consulta->execute(
+        array(
+          $datos['idproducto'],
+          $datos['idcategoria'],
+          $datos['descripcion'],
+          $datos['precio'],
+          $datos['garantia'],
+          $datos['fotografia']
+        )
+      );
+    }
+    catch(Exception $e){
+        die($e->getMessage());
+    }
+  }
   
 }
 

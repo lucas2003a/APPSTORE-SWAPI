@@ -2,22 +2,22 @@
 
 require_once 'Conexion.php';
 
-class Datasheet extends Conexion{
+class Galeria extends Conexion{
 
     private $conexion;
 
-    public function __construct()
-    {
+    public function __CONSTRUCT(){
+
         $this->conexion = parent::getConexion();
     }
 
-    public function listar($datos = []){
+    public function getGaleria($datos=[]){
 
         try{
-            $consulta = $this->conexion->prepare("call spu_datasheet_listar(?)");
-            $consulta->execute(
-                array(
-                    $datos['idproducto'],
+            $consulta = $this->conexion->prepare("call spu_galeria_listar(?)");
+            $consulta->execute(array(
+
+                    $datos['idproducto']
                 )
             );
 
@@ -30,12 +30,11 @@ class Datasheet extends Conexion{
 
     public function registrar($datos=[]){
         try{
-            $consulta = $this->conexion->prepare("call spu_datasheet_registrar(?,?,?)");
+            $consulta = $this->conexion->prepare("call spu_galeria_registrar(?,?)");
             $consulta->execute(
                 array(
                     $datos['idproducto'],
-                    $datos['clave'],
-                    $datos['valor'],
+                    $datos['rutafoto'],
                 )
             );
         }
@@ -46,13 +45,12 @@ class Datasheet extends Conexion{
 
     public function actualizar($datos=[]){
         try{
-            $consulta = $this->conexion->prepare("call spu_datasheet_actualizar(',?,?,?)");
+            $consulta = $this->conexion->prepare("call spu_galeria_actualizar(?,?,?)");
             $consulta->execute(
                 array(
-                    $datos['idespecificaion'],
+                    $datos['idgaleria'],
                     $datos['idproducto'],
-                    $datos['clave'],
-                    $datos['valor'],
+                    $datos['rutafoto'],
                 )
             );
         }
@@ -60,4 +58,5 @@ class Datasheet extends Conexion{
             die($e->getMessage());
         }
     }
+
 }
