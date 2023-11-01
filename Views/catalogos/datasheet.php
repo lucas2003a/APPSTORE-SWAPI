@@ -84,12 +84,14 @@ if(isset($_GET['id'])){
               <hr>
               <h6 id="alert-fecha">Descripción del producto:</h6>
             </div>
-          </div>
-          <div class="d-grid m-4">
-            <button type="button" class="btn btn-success" id="actualizar-data"><i class="fa-solid fa-pen-to-square"></i><strong> Actualizar información</strong></button>
-          </div>
         </div>
       </div>
+    </div>
+  
+    <div class="m-4">
+      <hr>
+      <h2>INFORMACIÓN:</h2>
+      <hr>
     </div>
 
     <div class="m-4">
@@ -114,48 +116,9 @@ if(isset($_GET['id'])){
     </div>
   </div>
 
-  <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalToggleLabel">Modal 1</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form action="">
-          <div class="modal-body">
-            <input type="email" name="" id="" required>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
-          </div>
-        </form>
-      </div>
-    </div>
-    </div>
-    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalToggleLabel2">Modal 2</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Hide this modal and show the first with the button below.
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to first</button>
-      </div>
-      </div>
-    </div>
-    </div>
-    <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Open first modal</a>
-  
-  
-  
-  
+  <!-- MODAL DE IMAGEN -->
 
-
-  <div id="my-modal" class="my-modal">
+  <div id="modal-visor" class="my-modal">
 
     <span class="close">&times;</span>
 
@@ -163,8 +126,8 @@ if(isset($_GET['id'])){
 
     <div id="caption"></div>
 
-
   </div>
+
   <header>
     <!-- place navbar here -->
   </header>
@@ -203,7 +166,7 @@ if(isset($_GET['id'])){
 
         const cardFooter = $("#card-footer");
 
-        const modal = $("#my-modal");
+        const modal = $("#modal-visor");
 
         const imgModal = $("#img-modal2");
         
@@ -322,6 +285,7 @@ if(isset($_GET['id'])){
                 });
         }
 
+
         function getProductos(){
 
           const parametros = new FormData();
@@ -362,7 +326,12 @@ if(isset($_GET['id'])){
           modal.setAttribute("style","display: block;");
           imgModal.setAttribute("src",url);
           textImg.innerText = descrip;
+        }
 
+        function reinciarFormulario(){
+
+          $("#fotografias").classList.add("d-none");
+          $("#modal-descripcion").value = "";
 
         }
 
@@ -384,18 +353,8 @@ if(isset($_GET['id'])){
         });
 
         //CARGA AUTOMATICA
+        
         getProductos();
-
-        /*const parametros = new FormData();
-          parametros.append("operacion","obtener");
-          parametros.append("idproducto",$("#idproducto").value);
-
-          fetch()
-            .then()
-            .then()
-            .catch(e => {
-              console.error(e);
-            });*/
 
     });
   </script>
