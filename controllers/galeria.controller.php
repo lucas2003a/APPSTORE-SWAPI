@@ -20,23 +20,44 @@ if(isset($_POST['operacion'])){
             break;
         
         case 'registrar':
+            
+            // Directorio de destino
+            $directorioDestino = "../images/";
 
-            $ahora = date("dmYhis");
+            // Array para almacenar los nombres de archivo de las fotos
+            $nombresArchivos = array();
 
-            $nombreArchivo = sha1($ahora) . ".jpg";
+            //ARRAY DE RESPUESTAS
+            $respuetas = []; 
 
-            $datosEnviar =[
-
-                "idprodcuto" => $_POST['iproducto'],
-                "rutafoto" => $nombreArchivo
-            ];
-
-            if(move_uploaded_file($_FILES['rutafoto']['temp_name'], "../images/" . ".jpg")){
-                $datos['rutafoto'] = $nombreArchivo;
+            if (isset($_FILES['rutafoto'])) {
+                foreach ($_FILES['rutafoto']['tmp_name'] as $index => $tempName) {
+                    $ahora = date("dmYhis");
+                    $nombreArchivo = sha1($ahora . $index) . ".jpg";
+                    $rutaCompleta = $directorioDestino . $nombreArchivo;
+        
+                    if (move_uploaded_file($tempName, $rutaCompleta)) {
+                        $nombresArchivos[] = $nombreArchivo;
+                        
+                        $datosEnviar =[
+            
+                            "idproducto" => $_POST['idproducto'],
+                            "rutafoto" => $nombreArchivo
+                        ];
+                        
+                        $respuetas = $galeria->registrar($datosEnviar);
+                    }
+                }
             }
 
+            echo json_encode($respuetas);
+
             
-            echo json_encode($galeria->registrar($datosEnviar));
+
+            /*if(move_uploaded_file($_FILES['rutafoto']['tmp_name'], "../images/" . $nombreArchivo)){
+                $datosEnviar['rutafoto'] = $nombreArchivo;
+            }*/
+
             break;
         
         case 'actualizar':
@@ -47,7 +68,7 @@ if(isset($_POST['operacion'])){
 
             $datosEnviar =[
                 "idgaleria" => $_POST['idgaleria'],
-                "idprodcuto" => $_POST['iproducto'],
+                "idproducto" => $_POST['idproducto'],
                 "rutafoto" => $nombreArchivo,
             ];
 

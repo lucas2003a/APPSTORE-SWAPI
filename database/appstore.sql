@@ -29,7 +29,7 @@ create table roles
 (
 	idrol		int primary key auto_increment,
     rol			varchar(30)		not null,
-	create_at		date				not null 	default now(),
+	create_at		datetime				not null 	default now(),
     update_at		date				null,
     inactive_at		date				null,
     constraint uk_rol_roles unique(rol)
@@ -41,7 +41,7 @@ create table nacionalidades
 	idnacionalidad		int primary key auto_increment,
     nombrepais			varchar(60)  	not null,
     nombrecorto			char(3)			not null,
-	create_at		date				not null 	default now(),
+	create_at		datetime				not null 	default now(),
     update_at		date				null,
     inactive_at		date				null,
     constraint uk_nombrepais_nac unique(nombrepais,nombrecorto)
@@ -58,7 +58,7 @@ create table usuarios
     nombres			varchar(40)			not null,
     email			varchar(60)			not null,
     claveacceso		varchar(60)			not null,
-    create_at		date				not null 	default now(),
+    create_at		date			not null 	default now(),
     update_at		date				null,
     inactive_at		date				null,
 	constraint fk_idrol_usu	foreign key(idrol) references roles(idrol),

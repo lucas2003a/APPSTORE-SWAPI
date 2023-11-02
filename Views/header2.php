@@ -4,11 +4,11 @@ session_start();
 $permisos = [
     "ADMIN" => ["index","usuarios","categorias","productos","roles","ventas","reportes"],
     "ASIST" => ["index","categorias","productos","ventas","reportes"],
-    "INV"   => ["index","catalogos","productos"]
+    "INV"   => ["index","productos"]
 ];
 
 if(!isset($_SESSION["status"]) || $_SESSION["status"] == false){
-    header("Location:../../index.php");
+    header("Location:../../login.php");
     exit();
 }
 ?>
@@ -49,10 +49,8 @@ if(!isset($_SESSION["status"]) || $_SESSION["status"] == false){
                     <?php
                     $listaOpciones = $permisos[$_SESSION["rol"]];
 
-                    echo "<a class='nav-link' href='../catalogos/catalogo.php'>catalogo-Lista</a>";
-
                     foreach($listaOpciones as $opcion){
-                        if($opcion != "index" && $opcion != "catalogos"){
+                        if($opcion != "index"){
                             echo "
                             <li>
                                 <a href='../{$opcion}/listar.php'class='nav-link'>{$opcion}-Lista</a>

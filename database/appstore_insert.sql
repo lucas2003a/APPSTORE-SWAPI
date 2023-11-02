@@ -296,11 +296,11 @@ call spu_roles_listar();
 
 call spu_usuarios_listar();
 
-call spu_usuarios_registrar('','2',1,'Lucas Alfredp','Atuncar Valerio','lucasatuancar1@gmail.com','123');
+call spu_usuarios_registrar('','1',4,'Manuel Jesús','Cardenas Mateo','carma@gmail.com','123');
 call spu_usuarios_eliminar('1');
-select * from productos;
+select * from usuarios;
 
-update usuarios set email= 'lucasatuncar1@gmail.com' where idusuario = '2';
+update usuarios set email= 'carma@gmail.com' where idusuario = '3';
 
 create table roles;
 alter table roles auto_increment = 1;
@@ -328,11 +328,11 @@ call spu_productos_obtener('1');
 
 select * from datasheet;
 call spu_datasheet_registrar(3,'n','n1');
-call spu_datasheet_listar('1');
+call spu_datasheet_listar('2');
 call spu_datasheet_actualizar(1,1,'aa','a1');
 
 select * from galeria;
 call spu_galeria_registrar(5,'f24.jpg');
-call spu_galeria_listar('1'); 
-call spu_galeria_actualizar(6,1,'28670d018c81c75aa22b3ed1699beee4b1c1f174.jpg');
+call spu_galeria_listar('2'); 
+call spu_galeria_actualizar(6,1,'28670d018c81c75aa22b3ed1699beee4b1c1f174.jpg');
 
