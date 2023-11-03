@@ -92,6 +92,33 @@ if(isset($_POST['operacion'])){
             echo json_encode($statusLogin);
 
         break;
+
+        case 'registrarCD':
+            $datosEnviar=[
+                "idusuario" => $_POST['idusuario'],
+                "codigo" => $_POST['codigo'],
+            ];
+
+            echo json_encode($usuario->insertCode($datosEnviar));
+
+            break;
+        case 'obtenerCD':
+
+            $datosEnviar=[
+                "campocriterio" => $_POST['campocriterio']
+            ];
+
+            echo json_encode($usuario->getCode($datosEnviar));
+            break;
+        
+        case 'eliminar':
+            $datosEnviar=[
+                "idcodigoCD" => $_POST['idcodigo'],
+            ];
+
+            echo json_encode($usuario->deleteCode($datosEnviar));
+
+            break;
         
     }
 

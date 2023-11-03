@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Canvas = lienzo 2D/3D https://threejs.org-->
+    <div style="width: 50%">
+        <canvas id="micrografico"></canvas>
+    </div>
+
+    <!-- CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+        //const contexto
+
+        const contexto = document.getElementById("micrografico");
+
+        //Constructor(refcanvas,{parámetros}, opptions)
+        const grafico = new Chart(contexto,{
+            type: 'bar',
+            data:{
+                labels:["HP","LENOVO","ACER","DELL"],
+                datasets:[{
+                    label: "ENERO",
+                    data: [10,205,13,12],
+                    borderWidth: 1
+                },{
+                    label: "FEBRERO",
+                    data: [155,20,13,18],
+                    borderWidth: 1
+                }],
+            }
+        });
+    </script>
+</body>
+</html>

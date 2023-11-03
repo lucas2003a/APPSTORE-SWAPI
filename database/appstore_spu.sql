@@ -156,7 +156,8 @@ begin
         rl.rol,
         nac.nombrepais,
         usu.apellidos,
-        usu.nombres
+        usu.nombres,
+        usu.telefono
 	from usuarios as usu
     inner join roles as rl on rl.idrol = usu.idrol
     inner join nacionalidades as nac on nac.idnacionalidad = usu.idnacionalidad
@@ -175,13 +176,14 @@ create procedure spu_usuarios_registrar
         in _apellidos		varchar(40),
         in _nombres			varchar(40),
         in _email			varchar(60),
-        in _claveacceso		varchar(60)
+        in _claveacceso		varchar(60),
+        in _telefono 		char(9)
 )
 begin
 	insert into usuarios
-		(avatar,idrol,idnacionalidad,apellidos,nombres,email,claveacceso)
+		(avatar,idrol,idnacionalidad,apellidos,nombres,email,claveacceso,telefono)
         values
-        (nullif(_avatar,''),_idrol,_idnacionalidad,_apellidos,_nombres,_email,_claveacceso);
+        (nullif(_avatar,''),_idrol,_idnacionalidad,_apellidos,_nombres,_email,_claveacceso,_telefono);
         
         select @@last_insert_id 'idusuario';
 end $$
@@ -197,10 +199,21 @@ create procedure spu_usuarios_modificar
     in _idnacionalidad	int,
     in _apellidos		varchar(40),
     in _nombres			varchar(40),
-    in _email			varchar(60)
+    in _email			varchar(60),
+    in _telefono		char(9)
     
 )
 begin
+	update usuarios set		
+		avatar 			= nullif(_avatar,''),			
+		idrol			= _idrol,		
+		idnacionalidad 	= _idnacionalidad,
+		apellidos 		= _apellidos,
+		nombres 		= _nombres,		
+		email			= _email,			
+		telefono		= _telefono
+	where
+		idusuario = _idusuario;
 end $$
 delimiter ;
 
@@ -431,10 +444,48 @@ begin
 end $$
 delimiter ;
 
-call spu_datasheet_listar2('2');
+drop procedure if exists spu_codigos_obtener;
+delimiter $$
+create procedure spu_codigos_obtener(in _campocriterio varchar(60))
+begin
+	select 
+		idusuario,
+		apellidos,
+		nombres,
+        email,
+        telefono,
+        codigo
+    from usuarios 
+    where 
+		email like concat('%',_campocriterio,'%') or telefono like concat('%',_campocriterio,'%') and 
+        inactive_at is null;
+        
+end $$
+delimiter ;
 
-select * from datasheet where idproducto = '1';
-select * from galeria where idproducto = '1';
+drop procedure if exists spu_codigos_registrar;
+delimiter $$
+create procedure spu_codigos_registrar
+(
+	in _idusuario	int,
+    in _codigo		char(6)
+)
+begin
+	update usuarios set
+		codigo = _codigo
+    where 
+		idusuario = _idusuario;
+end $$
+delimiter ;
 
+drop procedure if exists spu_codigos_eliminar;
+delimiter $$
+create procedure spu_codigos_eliminar(in _idusuario int)
+begin
+	update usuarios set 
+		codigo = null
+	where 
+		idusuario = _idusuario;
+end $$
+delimiter ;
 
-call spu_usuarios_login('lucasatuncar1@gmail.com');

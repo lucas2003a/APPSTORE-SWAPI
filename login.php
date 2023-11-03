@@ -44,6 +44,8 @@ if(isset($_SESSION["login"]) && $_SESSION["login"]){
         <div>
           <div class="d-grid">
             <button type="submit" class="btn btn-sm btn-success" id="acceder">Acceder</button>
+
+            <a href="./register.php" class="btn btn-sm btn-primary mt-2">Recuperar contraseña</a>
           </div>
         </div>
         </form>

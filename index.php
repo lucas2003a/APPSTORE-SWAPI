@@ -69,8 +69,18 @@
             </div>
            </form>
         </div>
-            <div class ="row" id="card-products">
-            
+            <div class ="row">
+              <div class="col-md-2">
+                <div>
+                  <label for="">Precio</label>
+                  <input type="text" id="precioFiltro" value="1000" >
+                  <input type="range" min="1" max="5000" value="1000" id="precioRango">
+                  <button class="btn btn-sm btn-primary" id="mostrarFiltro" type="button">Filtrar</button>
+                </div>
+              </div>
+              <div class="col-md-10">
+                <div class="row"  id="card-products"></div>
+              </div>
             </div>
     </div>
 </div>
@@ -90,6 +100,8 @@
       }
 
       const card = $("#card-products");
+
+      let dataObtenida = null;
 
       function getCategorias(){
 
@@ -130,8 +142,9 @@
         })
           .then(result => result.json())
           .then(data => {
-            console.log(data);
-            if(data.length == 0){
+            dataObtenida = data;
+            console.log(dataObtenida);
+            if(dataObtenida.length == 0){
               card.innerHTML = `    
               <div class='alert alert-danger' role='alert'>
                 <h4 class='alert-heading'><strong>CATALOGOS</strong></h4>
@@ -148,8 +161,8 @@
               let numCard = 1;
   
               card.innerHTML = "";
-  
-              data.forEach(element => {
+              
+              dataObtenida.forEach(element => {
 
                 const rutaImagen =(element.fotografia == null) ? "noImage.jfif" : element.fotografia;
                 
@@ -191,6 +204,9 @@
           });
       }
 
+      $("#precioRango").addEventListener("change",() => {
+        $("#precioFiltro").value = $("#precioRango").value;
+      });
 
       //Al dar click en el boton buscar
       $("#form-catalogo").addEventListener("submit",(event) =>{
@@ -201,6 +217,55 @@
 
       //Al dar cambiar de categoria en el select
       $("#categoria").addEventListener("change",listarOfertas);
+
+      $("#mostrarFiltro").addEventListener("click",() => {
+
+        console.log(dataObtenida);
+
+        const precio = parseFloat($("#precioFiltro").value);
+                      //Render
+              let numCard = 1;
+  
+              card.innerHTML = "";
+              
+              dataObtenida.forEach(element => {
+
+                const rutaImagen =(element.fotografia == null) ? "noImage.jfif" : element.fotografia;
+                
+                if(precio >= parseFloat(element.precio)){
+
+                let nuevoCard = ``;
+  
+                nuevoCard = `
+  
+                <div class='col-md-3'>
+                  <div class='m-2'>
+                    <div class='card text-start'>
+                      <div>
+                      <img class='card-img' style='width: 100%; height: 250px;' src='./images/${rutaImagen}' alt='${element.descripcion}'>
+                      </div>
+                        <div class="card-body" >
+                          <h4 class="card-title" style='width: 100%; height: 150px;'>${element.descripcion}</h4>
+                          <p class="card-text">$/${element.precio}</p>
+                        </div>
+                        <div class="card-footer">
+                          <div class='d-grid'>
+                            <a href ='./views/catalogos/datasheet.php?id=${element.idproducto}' type='submit' class='btn btn-sm btn-success'>Lo quiero!</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                `;
+                  //AGREGAMOS EN href LA DIRECCION DE NUESTRO ARCHIVO DE DESTINO Y UNA OPERACION ID QUE ALMACENA EL ID DEL PRODUCTO
+                  //Y LO ENVIA AL ARCHIVO DE DESTINNO
+                card.innerHTML += nuevoCard;
+              }
+              });
+
+        
+      });
 
       getCategorias();
       listarOfertas();

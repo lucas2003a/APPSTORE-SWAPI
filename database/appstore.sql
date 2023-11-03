@@ -65,6 +65,10 @@ create table usuarios
     constraint fk_idnacionalida_usu	foreign key(idnacionalidad) references nacionalidades(idnacionalidad)
 )engine = innodb;
 
+alter table usuarios add telefono char(9);
+alter table usuarios add codigo char(6);
+select * from usuarios;
+
 drop table if exists datasheet;
 create table datasheet
 (
@@ -90,3 +94,17 @@ create table galeria
     inactive_at			date				null,
     constraint fk_idproducto_gal foreign key(idproducto) references productos(idproducto)
 )engine = innodb;
+
+/*
+NO VA ESTO
+drop table if exists codigos;
+create table codigos(
+	idcodigo		int primary key auto_increment,
+    idusuario		int 		not null,
+    codigo			char(6)	 	not null,
+    create_at		date 		not null	default now(),
+    update_at		date 		null,
+    inactive_at		date		null,
+    constraint fk_idusuario_cd foreign key(idusuario) references usuarios(idusuario),
+    constraint uk_codigo_cd unique(codigo)
+)engine = innodb;*/

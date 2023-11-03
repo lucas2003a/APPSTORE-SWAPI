@@ -74,4 +74,48 @@ class Usuario extends Conexion{
             die($e->getMessage());
         }
     }
+    public function insertCode($datos =[]){
+        try{
+            $consulta = $this->conexion->prepare("call spu_codigos_registrar(?,?)");
+            $consulta->execute(
+                array(
+                    $datos['idusuario'],
+                    $datos['codigo']
+                )
+            );
+        }
+        catch(Exeption $e){
+            die($e->getMessage());
+        }
+    }
+
+    public function getCode($datos = []){
+        try{
+            $consulta = $this->conexion->prepare("call spu_codigos_obtener(?)");
+            $consulta->execute(
+                array(
+                    $datos['campocriterio']
+                )
+            );
+
+            return $consulta->fetch(PDO::FETCH_ASSOC);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+    
+    public function deleteCode($datos = []){
+        try{
+            $consulta = $this->conexion->prepare("call spu_codigos_eliminar(?)");
+            $consulta->execute(
+                array(
+                    $datos['idcodigo']
+                )
+            );
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
 }
