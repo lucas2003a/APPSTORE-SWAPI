@@ -7,6 +7,8 @@ require_once '../models/Usuario.php';
 
     $usuario = new Usuario();
 
+    $codigo = rand(100000,999999);
+
 if(isset($_POST['operacion'])){
 
     switch($_POST['operacion']){
@@ -91,35 +93,78 @@ if(isset($_POST['operacion'])){
 
             echo json_encode($statusLogin);
 
-        break;
+            break;
 
         case 'registrarCD':
+
             $datosEnviar=[
                 "idusuario" => $_POST['idusuario'],
-                "codigo" => $_POST['codigo'],
+                "codigo" => $codigo
             ];
 
             echo json_encode($usuario->insertCode($datosEnviar));
 
             break;
+
         case 'obtenerCD':
 
             $datosEnviar=[
                 "campocriterio" => $_POST['campocriterio']
             ];
 
-            echo json_encode($usuario->getCode($datosEnviar));
-            break;
+            $statusForm = [
+
+                "status" => false,
+                "mensaje" => ""
+            ];
+
+            $registro = $usuario->getCode($datosEnviar);
+
+            if(!$registro){
+
+                $statusForm["mensaje"] = "Email o telefono incorrectos, vuelva a ecribir";
+            }else{
+                $statusForm["status"] = true;
+                $statusForm["mensaje"] = "si coinciden";
+            }
+
+            $result = [$statusForm,$registro];
+
+            echo json_encode($result);
+            //echo json_encode($registro);
+            //echo json_encode($statusForm);
+
+        break;
         
-        case 'eliminar':
+        case 'eliminarCD':
             $datosEnviar=[
-                "idcodigoCD" => $_POST['idcodigo'],
+                "idusuario" => $_POST['idusuario'],
             ];
 
             echo json_encode($usuario->deleteCode($datosEnviar));
 
-            break;
+        break;
+
+        case 'sendSMS':
+            $datosEnviar=[
+                "telefono" => $_POST['telefono'],
+                "mensaje" => "codigo de recuperacion: " . $_POST['codigo']
+            ];
+
+            echo json_encode($usuario->sendSMS($datosEnviar));
+        break;
         
+        case 'sendEmail':
+
+
+            $datosEnviar=[
+                "emailDestino" => $_POST['emailDestino'],
+                "asunto" => "recuperacion de contraseña",
+                "mensaje" => "codigo de recuperacion: " . $codigo
+            ];
+
+            $usuario->sendEmail($datosEnviar);
+        break;
     }
 
 }

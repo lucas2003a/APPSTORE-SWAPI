@@ -177,7 +177,8 @@
                       <img class='card-img' style='width: 100%; height: 250px;' src='./images/${rutaImagen}' alt='${element.descripcion}'>
                       </div>
                         <div class="card-body" >
-                          <h4 class="card-title" style='width: 100%; height: 150px;'>${element.descripcion}</h4>
+                          <h4 class="card-title" style='width: 100%; height: 180px;'>${element.descripcion}</h4>
+                          <hr>
                           <p class="card-text">$/${element.precio}</p>
                         </div>
                         <div class="card-footer">
