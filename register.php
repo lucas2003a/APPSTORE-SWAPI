@@ -25,7 +25,7 @@
         <h4>Recuperar constraseña</h4>
         <form action="" id="form-usuario">
         <div class="mb-3">
-          <label for="" class="form-label">Email</label>
+          <label for="" class="form-label">Email o teléfono</label>
           <input type="text" class="form-control" id="campocriterio" autofocus required>
         </div>
         <div class="mb-3">
@@ -48,6 +48,33 @@
       <div class="col-md-4"></div>
     </div>
   </div>
+
+  <!-- MODAL -->
+  <!-- Button trigger modal -->
+  
+  <!-- Modal -->
+  <div class="modal" id="modal-code">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form action="" id="form-code">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalTitleId">Modal title</h5>
+              <button type="button" id="modal-cerrar" class="btn-close" data-bs-dismiss="modal-register" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <label for="code" class="form-label">Ingrese el código enviado</label>
+              <input type="text" class="form-control" id="code" name="code" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
   </main>
   <footer>
 
@@ -64,11 +91,12 @@
   <script>
     document.addEventListener("DOMContentLoaded",() => {
 
+      dataUsu = null;
+      codeResult = null;
+
       function $(id){
         return document.querySelector(id);
       }
-
-      dataUsu = null;
 
       
       function getData(){
@@ -95,26 +123,6 @@
             //alert(statusForm.mensaje);
             insertCode();
 
-            if($("#sms").checked){
-        
-              if($("#campocriterio").value.trim() == dataUsu.telefono.trim()){
-                console.log("check sms");
-                sendSMS()
-               
-              }else{
-                alert("No existe el número de teléfono");
-              }
-
-            }else if($("#email").checked){
-        
-              if($("#campocriterio").value.trim() == dataUsu.email.trim()){
-                console.log("check email");
-                sendEmail();
-              }else{
-                alert("No existe el correo");
-              }
-            }
-
           }else{
             alert(statusForm.mensaje);
           }
@@ -125,12 +133,13 @@
         });
       }
 
-      function sendSMS(){
+      function sendSMS(codigoObtenido){
 
         const parametros = new FormData();
 
         parametros.append("operacion","sendSMS");
         parametros.append("telefono",$("#campocriterio").value);
+        parametros.append("mensaje",codigoObtenido);
 
         fetch(`./controllers/usuario.controller.php`,{
           method:"POST",
@@ -155,12 +164,13 @@
           });
       }
 
-      function sendEmail(){
+      function sendEmail(codigoObtenido){
 
         const parametros = new FormData();
 
         parametros.append("operacion","sendEmail");
         parametros.append("emailDestino",$("#campocriterio").value);
+        parametros.append("mensaje",codigoObtenido);
 
         fetch(`./controllers/usuario.controller.php`,{
           method:"POST",
@@ -199,18 +209,65 @@
         })
           .then(result => result.json())
           .then(data =>{
-            console.log("registrado");
+
+            codeResult = data;
+            console.log(codeResult);
+
+            const mensaje = "El código de recuperación es : " + codeResult.codigo
+
+            if($("#sms").checked){
+
+              if($("#campocriterio").value == dataUsu.telefono){
+                console.log("check sms");
+                sendSMS(mensaje)
+   
+              }else{
+                alert("No existe el número de teléfono");
+              }
+
+            }else if($("#email").checked){
+
+              if($("#campocriterio").value == dataUsu.email){
+                console.log("check email");
+                sendEmail(mensaje);
+    
+              }else{
+                alert("No existe el correo");
+              }
+            }
           })
           .catch(e =>{
             console.error(e);
           });
       }
 
+      function modalCodeAbrir(){
+        $("#modal-code").classList.remove("d-none");
+        $("#modal-code").classList.add("d-block");
+      }
+
+      function modalCodeCerrar(){
+
+        $("#modal-code").classList.remove("d-block");
+        $("#modal-code").classList.add("d-none");
+      }
+
+      $("#modal-cerrar").addEventListener("click",() => {
+        modalCodeCerrar();
+      });
+
       $("#form-usuario").addEventListener("submit",(event) =>{
         event.preventDefault();
         getData();
+        modalCodeAbrir();
 
       });
+
+      $("#form-code").addEventListener("submit",(event) => {
+        event.preventDefault();
+      });
+
+
     });
   </script>
 </body>

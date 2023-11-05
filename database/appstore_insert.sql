@@ -298,7 +298,7 @@ call spu_usuarios_listar();
 
 call spu_usuarios_registrar('','1',4,'Manuel Jesús','Cardenas Mateo','carma@gmail.com','123');
 call spu_usuarios_eliminar('1');
-call spu_usuarios_modificar(2,'','1',4,'Lucas Alfredo','Atuncar Valerio','lucasatuncar1@gmail.com','956993597');
+call spu_usuarios_modificar(2,'','1',4,'Lucas Alfredo','Atuncar Valerio','lucasatuncar1@gmail.com','922634773');
 select * from usuarios;
 
 update usuarios set email= 'carma@gmail.com' where idusuario = '3';
@@ -347,7 +347,7 @@ call spu_datasheet_listar2('2');
 call spu_usuarios_login('lucasatuncar1@gmail.com');
 
 call spu_codigos_registrar(2,'123456');
-call spu_codigos_obtener('956993597');
+call spu_codigos_obtener('lucasatuncar1@gmail.com');
 call spu_codigos_eliminar('1');
 select * from usuarios;
 update codigos set inactive_at = null;

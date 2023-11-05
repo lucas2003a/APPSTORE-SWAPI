@@ -148,7 +148,7 @@ if(isset($_POST['operacion'])){
         case 'sendSMS':
             $datosEnviar=[
                 "telefono" => $_POST['telefono'],
-                "mensaje" => "codigo de recuperacion: " . $_POST['codigo']
+                "mensaje" => $_POST['mensaje']
             ];
 
             echo json_encode($usuario->sendSMS($datosEnviar));
@@ -160,7 +160,7 @@ if(isset($_POST['operacion'])){
             $datosEnviar=[
                 "emailDestino" => $_POST['emailDestino'],
                 "asunto" => "recuperacion de contraseña",
-                "mensaje" => "codigo de recuperacion: " . $codigo
+                "mensaje" => $_POST['mensaje']
             ];
 
             $usuario->sendEmail($datosEnviar);

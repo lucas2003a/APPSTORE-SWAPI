@@ -457,7 +457,7 @@ begin
         codigo
     from usuarios 
     where 
-		email like concat('%',_campocriterio,'%') or telefono like concat('%',_campocriterio,'%') and 
+		email =_campocriterio or telefono = _campocriterio and 
         inactive_at is null;
         
 end $$

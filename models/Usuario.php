@@ -196,6 +196,8 @@ class Usuario extends Conexion{
                     $datos['codigo']
                 )
             );
+
+            return $consulta->fetch(PDO::FETCH_ASSOC);
         }
         catch(Exception $e){
             die($e->getMessage());
