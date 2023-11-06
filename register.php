@@ -53,7 +53,7 @@
   <!-- Button trigger modal -->
   
   <!-- Modal -->
-  <div class="modal" id="modal-code">
+  <div class="modal d-block" id="modal-code">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <form action="" id="form-code">
@@ -68,7 +68,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary" id="validarCode">Save</button>
           </div>
         </form>
       </div>
@@ -252,6 +252,18 @@
         $("#modal-code").classList.add("d-none");
       }
 
+      function validarCode(){
+        
+        const inputcode = $("#code").value;
+
+        if(inputcode != codeResult.codigo){
+
+          alert("EL codigo no coincide");
+          inputcode.innerHTMl = "";
+        }else{
+          alert("EL codigo coincide");
+        }
+      }
       $("#modal-cerrar").addEventListener("click",() => {
         modalCodeCerrar();
       });
@@ -265,6 +277,7 @@
 
       $("#form-code").addEventListener("submit",(event) => {
         event.preventDefault();
+        validarCode();
       });
 
 
