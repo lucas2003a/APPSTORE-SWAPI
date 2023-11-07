@@ -457,9 +457,9 @@ begin
 end $$
 delimiter ;
 
-drop procedure if exists spu_codigos_obtener;
+drop procedure if exists spu_usuariosEmail_get;
 delimiter $$
-create procedure spu_codigos_obtener(in _campocriterio varchar(60))
+create procedure spu_usuariosEmail_get(in _email varchar(60))
 begin
 	select 
 		idusuario,
@@ -469,7 +469,7 @@ begin
         telefono
     from usuarios 
     where 
-		email =_campocriterio or telefono = _campocriterio and 
+		email =_campocriterio and 
         inactive_at is null;
         
 end $$

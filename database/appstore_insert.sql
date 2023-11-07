@@ -296,9 +296,9 @@ call spu_roles_listar();
 
 call spu_usuarios_listar();
 
-call spu_usuarios_registrar('','1',4,'Manuel Jesús','Cardenas Mateo','carma@gmail.com','123');
+call spu_usuarios_registrar('','1',4,'María Rosalva','Valerio Almeyda','carma@gmail.com','123');
 call spu_usuarios_eliminar('1');
-call spu_usuarios_modificar(2,'','1',4,'Lucas Alfredo','Atuncar Valerio','lucasatuncar1@gmail.com','922634773');
+call spu_usuarios_modificar(7,'',1,178,'luis miguel','llancari vicerrel','miguel.llancari12@gmail.com','965067084');
 select * from usuarios;
 
 update usuarios set email= 'carma@gmail.com' where idusuario = '3';
@@ -340,7 +340,7 @@ call spu_datasheet_actualizar(1,1,'aa','a1');
 select * from galeria;
 call spu_galeria_registrar(5,'f24.jpg');
 call spu_galeria_listar('2'); 
-call spu_galeria_actualizar(6,1,'28670d018c81c75aa22b3ed1699beee4b1c1f174.jpg');
+call spu_galeria_actualizar(6,1,'28670d018c81c75aa22b3ed1699beee4b1c1f174.jpg');
 
 select * from datasheet where idproducto = '1';
 select * from galeria where idproducto = '1';
@@ -350,7 +350,7 @@ call spu_datasheet_listar2('2');
 call spu_usuarios_login('lucasatuncar1@gmail.com');
 
 call spu_codigos_registrar(2,'123455');
-call spu_codigos_obtener('lucasatuncar1@gmail.com');
+call spu_usuariosEmail_get('lucasatuncar1@gmail.com');
 call spu_codigos_eliminar('1');
 select * from usuarios;
 update codigos set inactive_at = null;

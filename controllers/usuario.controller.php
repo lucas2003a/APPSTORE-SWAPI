@@ -4,8 +4,12 @@ session_start();
 date_default_timezone_set('America/Lima');
 
 require_once '../models/Usuario.php';
+require_once '../models/Sms.php';
+require_once '../models/Email.php';
 
-    $usuario = new Usuario();
+    $usuario    = new Usuario();
+    $sms        = new Sms();
+    $email      = new Email();
 
     $codigo = rand(100000,999999);
 
@@ -106,10 +110,10 @@ if(isset($_POST['operacion'])){
 
             break;
 
-        case 'obtenerCD':
+        case 'getUsuarioEmail':
 
             $datosEnviar=[
-                "campocriterio" => $_POST['campocriterio']
+                "email" => $_POST['email']
             ];
 
             $statusForm = [
@@ -118,14 +122,14 @@ if(isset($_POST['operacion'])){
                 "mensaje" => ""
             ];
 
-            $registro = $usuario->getCode($datosEnviar);
+            $registro = $usuario->getUsuarioEmail($datosEnviar);
 
             if(!$registro){
 
-                $statusForm["mensaje"] = "Email o telefono incorrectos, vuelva a ecribir";
+                $statusForm["mensaje"] = "Email incorrecto, vuelva a ecribir";
             }else{
                 $statusForm["status"] = true;
-                $statusForm["mensaje"] = "si coinciden";
+                $statusForm["mensaje"] = "Email encontrado";
             }
 
             $result = [$statusForm,$registro];
@@ -151,7 +155,7 @@ if(isset($_POST['operacion'])){
                 "mensaje" => $_POST['mensaje']
             ];
 
-            echo json_encode($usuario->sendSMS($datosEnviar));
+            echo json_encode($sms->sendSMS($datosEnviar));
             break;
         
         case 'sendEmail':
@@ -163,7 +167,7 @@ if(isset($_POST['operacion'])){
                 "mensaje" => $_POST['mensaje']
             ];
 
-            $usuario->sendEmail($datosEnviar);
+            $email->sendEmail($datosEnviar);
             break;
 
         case 'setPassword':
