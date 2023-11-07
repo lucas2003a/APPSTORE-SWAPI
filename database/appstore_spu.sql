@@ -250,7 +250,20 @@ begin
 end $$
 delimiter ;
 
-
+drop procedure if exists spu_set_password;
+delimiter $$
+create procedure spu_set_password
+(
+	in _idusuario	int,
+    in _claveacceso varchar(60)
+)
+begin
+	update usuarios set
+		claveacceso = _claveacceso
+	where
+		idusuario = _idusuario;
+end $$
+delimiter ;
 
 drop procedure if exists spu_products_categoria;
 delimiter $$
@@ -453,8 +466,7 @@ begin
 		apellidos,
 		nombres,
         email,
-        telefono,
-        codigo
+        telefono
     from usuarios 
     where 
 		email =_campocriterio or telefono = _campocriterio and 
@@ -475,6 +487,9 @@ begin
 		codigo = _codigo
     where 
 		idusuario = _idusuario;
+        
+	select codigo from usuarios
+    where idusuario = _idusuario;
 end $$
 delimiter ;
 

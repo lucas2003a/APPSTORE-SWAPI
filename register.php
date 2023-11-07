@@ -52,13 +52,13 @@
   <!-- MODAL -->
   <!-- Button trigger modal -->
   
-  <!-- Modal -->
+  <!-- Modal CODIGO-->
   <div class="modal d-block" id="modal-code">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <form action="" id="form-code">
           <div class="modal-header">
-            <h5 class="modal-title" id="modalTitleId">Modal title</h5>
+            <h5 class="modal-title" id="modalTitleId">Còdigo de recuperación/h5>
               <button type="button" id="modal-cerrar" class="btn-close" data-bs-dismiss="modal-register" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -69,6 +69,35 @@
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary" id="validarCode">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CONSTRASEÑA -->
+  <div class="modal d-block" id="modal-password">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form action="" id="form-password">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalTitleId">Cambiar constraseña</h5>
+              <button type="button" id="modal-cerrar" class="btn-close" data-bs-dismiss="modal-register" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <div class="m-2">
+                <label for="newPassword" class="form-label">Ingrese la nueva contraseña</label>
+                <input type="text" class="form-control" id="newPassword" name="newPassword" required>
+              </div>
+              <div class="m-2">
+                <label for="confirmPassword" class="form-label">Confirme la nueva contraseña</label>
+                <input type="text" class="form-control" id="confirmPassword" name="confirmPassword" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" id="validarPassword">Save</button>
           </div>
         </form>
       </div>
@@ -241,6 +270,28 @@
           });
       }
 
+      function setPassword(){
+
+        const parametros = new FormData();
+
+        parametros.append("operacion","setPassword");
+        parametros.append("idusuario",dataUsu.idusuario);
+        parametros.append("claveacceso",$("#confirmPassword").value);
+
+        fetch(`./controllers/usuario.controller.php`,{
+
+          method: "POST",
+          body: parametros
+        })
+          .then(result => result.json())
+          .then(data =>{
+            alert("se hizo el cambio correcto")
+          })
+          .catch(e =>{
+            console.error(e);
+          });
+      }
+
       function modalCodeAbrir(){
         $("#modal-code").classList.remove("d-none");
         $("#modal-code").classList.add("d-block");
@@ -250,6 +301,17 @@
 
         $("#modal-code").classList.remove("d-block");
         $("#modal-code").classList.add("d-none");
+      }
+
+      function modalPasswordAbrir(){
+        $("#modal-password").classList.remove("d-none");
+        $("#modal-password").classList.add("d-block");
+      }
+
+      function modalPasswordCerrar(){
+
+        $("#modal-password").classList.remove("d-block");
+        $("#modal-password").classList.add("d-none");
       }
 
       function validarCode(){
@@ -264,6 +326,19 @@
           alert("EL codigo coincide");
         }
       }
+
+      function validarPassword(){
+
+        const newPassword = $("#newPassword").value;
+        const confirmPassword = $("#confirmPassword").value;
+
+        if(confirmPassword != newPassword){
+          alert("Las contraseñas no coinciden");
+        }else{
+          alert("Las contraseñas coinciden");
+        }
+      }
+
       $("#modal-cerrar").addEventListener("click",() => {
         modalCodeCerrar();
       });
@@ -278,6 +353,11 @@
       $("#form-code").addEventListener("submit",(event) => {
         event.preventDefault();
         validarCode();
+      });
+
+      $("#form-password").addEventListener("submit",(event) =>{
+        event.preventDefault();
+        validarPassword();
       });
 
 

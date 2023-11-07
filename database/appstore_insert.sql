@@ -319,6 +319,9 @@ update usuarios set claveacceso = '$2y$10$e.utwy1/hS4KJdeF.F.VGuJ3/9CJCoqq5Ot.2f
 select * from productos;
 select * from usuarios;
 
+select * from usuarios;
+call spu_set_password(4,'987654');
+
 
 update usuarios set email = 'lucasatuncar1@gmail.com' where idusuario = '2';
 update roles set rol = 'ADMIN' where idrol = '1';
@@ -346,7 +349,7 @@ select * from galeria where idproducto = '1';
 call spu_datasheet_listar2('2');
 call spu_usuarios_login('lucasatuncar1@gmail.com');
 
-call spu_codigos_registrar(2,'123456');
+call spu_codigos_registrar(2,'123455');
 call spu_codigos_obtener('lucasatuncar1@gmail.com');
 call spu_codigos_eliminar('1');
 select * from usuarios;

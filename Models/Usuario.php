@@ -233,6 +233,22 @@ class Usuario extends Conexion{
             die($e->getMessage());
         }
     }
+
+    public function setPassword($datos = []){
+
+        try{
+            $consulta = $this->conexion->prepare("call spu_set_password(?,?)");
+            $consulta->execute(
+                array(
+                    $datos['idusuario'],
+                    $datos['claveacceso'],
+                )
+            );
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
 }
 /*
 $resultado = sendSMS("982253594","Estamos probando mensajes API");

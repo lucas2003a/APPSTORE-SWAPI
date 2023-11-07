@@ -134,7 +134,7 @@ if(isset($_POST['operacion'])){
             //echo json_encode($registro);
             //echo json_encode($statusForm);
 
-        break;
+            break;
         
         case 'eliminarCD':
             $datosEnviar=[
@@ -143,7 +143,7 @@ if(isset($_POST['operacion'])){
 
             echo json_encode($usuario->deleteCode($datosEnviar));
 
-        break;
+            break;
 
         case 'sendSMS':
             $datosEnviar=[
@@ -152,7 +152,7 @@ if(isset($_POST['operacion'])){
             ];
 
             echo json_encode($usuario->sendSMS($datosEnviar));
-        break;
+            break;
         
         case 'sendEmail':
 
@@ -164,7 +164,17 @@ if(isset($_POST['operacion'])){
             ];
 
             $usuario->sendEmail($datosEnviar);
-        break;
+            break;
+
+        case 'setPassword':
+
+            $datosEnviar = [
+                "idusuario" => $_POST['idusuario'],
+                "claveacceso" => password_hash($_POST['claveacceso'],PASSWORD_BCRYPT)
+            ];
+
+            echo json_encode($usuario->setPassword($datosEnviar));
+            break;
     }
 
 }
