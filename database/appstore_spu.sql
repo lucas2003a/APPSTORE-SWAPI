@@ -469,7 +469,7 @@ begin
         telefono
     from usuarios 
     where 
-		email =_campocriterio and 
+		email =_email and 
         inactive_at is null;
         
 end $$

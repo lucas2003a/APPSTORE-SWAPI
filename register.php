@@ -130,16 +130,40 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
 
+      /**
+       * @typedef{object} dataUsu
+       * @property {int} idusuario
+       * @property {string} apellidos
+       * @property {string} nombres
+       * @property {string} email
+       * @property {string} telefono
+       */
       dataUsu = null;
+
+      /**
+       * @typedef{object}codeResult
+       * @property {int} codigo
+       */
       codeResult = null;
 
       /**
-       * name
-       * @abstract */
+      *Función "$", sirve para poder manipular los elementos html de una forma mas rápida, mediante su id o clase.
+      *
+      *ejemplo por id : 
+      *$("#idelemento") 
+      *ejemplo por clase : 
+      *$(".clase")
+      * @param id{string} id - id de la etiqueta html o la clase de la etiqueta  
+      */
       function $(id) {
         return document.querySelector(id);
       }
-
+      
+      /**
+       * Función para resetear o limpiar las cajas de texto del modal donde modificamos la contraseña.
+       *
+       * @return void
+       */
       function modalPasswordReinciar() {
 
         $("#newPassword").value = "";
@@ -147,16 +171,30 @@
 
       }
 
+      /**
+       * Función para resetear o limpiar las cajas de texto del modal donde ingresamos el dódigo de verificacion.
+       *
+       * @return void
+       */
       function modalCodeReiniciar() {
-
       $("#code").value = "";
       }
 
+      /**
+       * Función para abrir el modal donde ingresamos el código de verificación.
+       *
+       * @return void
+       */
       function modalCodeAbrir() {
         $("#modal-code").classList.remove("d-none");
         $("#modal-code").classList.add("d-block");
       }
 
+      /**
+       * Función para cerrar el modal donde ingresamos el código de verificación.
+       *
+       * @return void
+       */
       function modalCodeCerrar() {
 
         $("#modal-code").classList.remove("d-block");
@@ -164,11 +202,21 @@
         modalCodeReiniciar();
       }
 
+      /**
+       * Función para abrir el modal donde modificamos la clave del usuario.
+       *
+       * @return void
+       */
       function modalPasswordAbrir() {
         $("#modal-password").classList.remove("d-none");
         $("#modal-password").classList.add("d-block");
       }
 
+      /**
+       * Función para cerrar el modal donde modificamos la clave del usuario.
+       *
+       * @return void
+       */
       function modalPasswordCerrar() {
 
         $("#modal-password").classList.remove("d-block");
@@ -176,12 +224,17 @@
         modalPasswordReinciar();
       }
 
-      function getData() {
+      /**
+       * Función para obtener los datos del usuario.
+       * @param emailIngresado{string} email
+       *
+       */
+      function getData(emailIngresado) {
 
         const parametros = new FormData();
 
         parametros.append("operacion", "getUsuarioEmail");
-        parametros.append("email", $("#email").value);
+        parametros.append("email", emailIngresado);
 
         fetch(`./controllers/usuario.controller.php`, {
           method: "POST",
@@ -189,16 +242,18 @@
         })
           .then(result => result.json())
           .then(data => {
-            //onsole.log(data)
 
+            //asignamos a statusForm, el primer array de la respuesta json
             const statusForm = data[0];
+
+            //asignamos a dataUsu, el segundo array de la respuesta json
             dataUsu = data[1];
 
             console.log(dataUsu);
 
             if (statusForm.status) {
-              //alert(statusForm.mensaje);
-              insertCode();
+              ///Enviamos los parametros y registramos el código;
+              insertCode(dataUsu.idusuario);
 
             } else {
               alert(statusForm.mensaje);
@@ -207,15 +262,21 @@
           })
           .catch(e => {
             console.error(e);
+            alert("Revise bien el email ingresado, ha cometido un error!!");
           });
       }
 
-      function sendSMS(codigoObtenido) {
+      /**
+       * Función para enviar mensajes de texto al celular
+       * @param {int} codigoObtenido 
+       * @param {string} telefonoObtenido 
+       */
+      function sendSMS(codigoObtenido,telefonoObtenido) {
 
         const parametros = new FormData();
 
         parametros.append("operacion", "sendSMS");
-        parametros.append("telefono", dataUsu.telefono);
+        parametros.append("telefono", telefonoObtenido);
         parametros.append("mensaje", codigoObtenido);
 
         fetch(`./controllers/usuario.controller.php`, {
@@ -226,7 +287,7 @@
           .then(data => {
 
             if (data) {
-
+              
               alert("mensaje enviado");
               modalCodeAbrir();
 
@@ -242,6 +303,10 @@
           });
       }
 
+      /**
+       * Función para enviar correos, tomamos valor de la caja de texto por id
+       * @param {int} codigoObtenido 
+       */
       function sendEmail(codigoObtenido) {
 
         const parametros = new FormData();
@@ -257,6 +322,7 @@
           .then(result => result.json())
           .then(data => {
 
+            //si existen los datos..
             if (data) {
 
               alert("email enviado");
@@ -274,12 +340,18 @@
           });
       }
 
-      function insertCode() {
+      /**
+       * Función para registrar el código generado, en la base de datos
+       * @param {int} idObtenido 
+       *
+       * @return void
+       */
+      function insertCode(idObtenido) {
 
         const parametros = new FormData();
 
         parametros.append("operacion", "registrarCD");
-        parametros.append("idusuario", dataUsu.idusuario);
+        parametros.append("idusuario", idObtenido);
 
 
         fetch(`./controllers/usuario.controller.php`, {
@@ -289,19 +361,25 @@
           .then(result => result.json())
           .then(data => {
 
+            //Asignamos a codeResult los registros de data.
             codeResult = data;
             console.log(codeResult);
 
+            //almacenamos el mensaje en una variable y concatenamos el codigo que se guardo en codeResult
             const mensaje = "El código de recuperación es : " + codeResult.codigo
 
+
+            //usamos else if para verificar que solo una de los dos checkboxes esten seleccionadas
             if ($("#chk-sms").checked) {
 
               console.log("check sms");
-              sendSMS(mensaje);
+              //enviamos los parametros
+              sendSMS(mensaje,dataUsu.telefono);
 
             } else if ($("#chk-email").checked) {
 
               console.log("check email");
+              //enviamos los parametros
               sendEmail(mensaje);
 
             }
@@ -311,7 +389,13 @@
             console.error(e);
           });
       }
-
+      
+      /**
+       * Función para modificar la contraseña del usuario, tomamos los valores del data.idusuario
+       * y de la caja de texto donde se confirma la constraseña.
+       *
+       * @return void
+       */
       function setPassword() {
 
         const parametros = new FormData();
@@ -334,26 +418,66 @@
           });
       }
 
+      /**
+       * Funcion para eliminar el código generado, de de la base de datos(null)
+       * @param id{int} idusuario
+       *
+       * @return void
+       */
+      function deleteCode(idObtenido){
+
+        const parametros = new FormData();
+
+        parametros.append("operacion","eliminarCD");
+        parametros.append("idusuario",idObtenido);
+
+        fetch(`./controllers/usuario.controller.php`,{
+          method : "POST",
+          body:parametros
+        })
+          .then(result => result.json())
+          .then(data =>{
+            console.log("se elimino el código");
+          })
+          .catch( e =>{
+            console.error(e);
+          });
+      }
+
+      /**
+       * Función para validar que el codigo ingresado sea el mismo código que se ha guardado en la base de datos
+       *
+       * @return void
+       */
       function validarCode() {
 
-        const inputcode = $("#code").value;
-
-        if (inputcode != codeResult.codigo) {
+        if ($("#code").value != codeResult.codigo) {
 
           alert("EL codigo no coincide");
-          inputcode.value = "";
+
+          //limpiamos o vaciamos la caja de texto
+          modalCodeReiniciar();
         } else {
           alert("EL codigo coincide");
           modalPasswordAbrir();
-          inputcode.value = "";
+
+          modalCodeReiniciar();
+          deleteCode(dataUsu.idusuario);
         }
       }
 
+      /**
+       * Función para validar que las constraseñas ingresadas en las cajas de txto, sean iguales,
+       * de no ser asi no se procederá a guardar la constraseña.
+       *
+       * @return void
+       */
       function validarPassword() {
 
         const newPassword = $("#newPassword").value;
         const confirmPassword = $("#confirmPassword").value;
 
+        //si el valor o la contraseña ingresada en ambas cajas no coinciden...
         if (confirmPassword != newPassword) {
 
           alert("Las contraseñas no coinciden");
@@ -364,33 +488,46 @@
           setPassword();
           modalPasswordCerrar();
           modalCodeCerrar();
+
+          //limpiamos la caja
           $("#email").value = "";
 
+          //redireccionamos hacia la formulario login, para que inicie sesión
           window.location.href = "./login.php";
 
         }
       }
 
+      //al dar click en la "x" del modal de registro de codigo..
       $("#modal-cerrar").addEventListener("click", () => {
         modalCodeCerrar();
       });
 
+      //al dar click en la "x" del modal de actualizar contraseña....
       $("#modalPass-cerrar").addEventListener("click",() => {
         modalPasswordCerrar();
         modalCodeCerrar();
       });
 
+      //al dar click en el boton "submit" del formulario donde se ingresa el email....
       $("#form-usuario").addEventListener("submit", (event) => {
+
+        //detenmos el evento "submit"
         event.preventDefault();
-        getData();
+        const inputEmail = $("#email").value;
+        console.log(inputEmail);
+        getData(inputEmail);
 
       });
 
+
+      //al dar click en el boton "submit" del formulario donde se ingresa el codigo....
       $("#form-code").addEventListener("submit", (event) => {
         event.preventDefault();
         validarCode();
       });
 
+      //al dar click en el boton "submit" del formulario donde se se actualiza la contraseña....
       $("#form-password").addEventListener("submit", (event) => {
         event.preventDefault();
         validarPassword();
