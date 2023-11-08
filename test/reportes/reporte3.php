@@ -14,13 +14,24 @@ try{
     //Intentar => acciones que deseamos ejecutar
     //3.-Instancia
     //En el constructor vamos a colocar (Orienteación[Portrait | Landscape],TipoPapel, idioma)
-    $reporte = new Html2Pdf("P","A4","es");
+    //El array contiene los espacis de margens(<=,arriba,=>,abajo)
+    $reporte = new Html2Pdf("P","A4","es",true, "UTF-8", array(25,15,15,15));
     $reporte->setDefaultFont("Arial");
+
+    /* ACTUALIZACION */
+    //ahora nuestro archivo de contenid o recibirá datos dinámicos(variables,arreglos y objetos)
+    $desarrollador = "Miguel Torres prada";
+    $dataTable = [
+        ["sede" => "Chincha" , "carrera" => "Ingeniería de software"],
+        ["sede" => "Pisco" , "carrera" => "Mecánica automotríz"],
+        ["sede" => "Ica" , "carrera" => "Mecánica Industrial"],
+    ];
+    $carreras = ["mecanica automotriz","inengieria de softaware","mecaica de manteninmiento"];
 
     /* Inicia la lectura */
     ob_start();
-    include 'estilos.html';
-    include 'reporte1-contenido.php';
+    include 'estilos.html'; //Estilo para todos los pdf
+    include 'reporte3-contenido.php';
     $contenido = ob_get_clean();
 
     $reporte->writeHTML($contenido);

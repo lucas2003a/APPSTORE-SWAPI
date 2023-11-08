@@ -14,13 +14,14 @@ try{
     //Intentar => acciones que deseamos ejecutar
     //3.-Instancia
     //En el constructor vamos a colocar (Orienteación[Portrait | Landscape],TipoPapel, idioma)
-    $reporte = new Html2Pdf("P","A4","es");
+    //El array contiene los espacis de margens(<=,arriba,=>,abajo)
+    $reporte = new Html2Pdf("P","A4","es",true, "UTF-8", array(25,15,15,15));
     $reporte->setDefaultFont("Arial");
 
     /* Inicia la lectura */
     ob_start();
     include 'estilos.html';
-    include 'reporte1-contenido.php';
+    include 'reporte2-contenido.php';
     $contenido = ob_get_clean();
 
     $reporte->writeHTML($contenido);
