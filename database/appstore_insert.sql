@@ -296,12 +296,12 @@ call spu_roles_listar();
 
 call spu_usuarios_listar();
 
-call spu_usuarios_registrar('','1',4,'María Rosalva','Valerio Almeyda','carma@gmail.com','123');
+call spu_usuarios_registrar('','1',4,'Jhon Edward','Francia Minaya','jfranciaminaya@gmail.com','123');
 call spu_usuarios_eliminar('1');
 call spu_usuarios_modificar(7,'',1,178,'luis miguel','llancari vicerrel','miguel.llancari12@gmail.com','965067084');
 select * from usuarios;
-
-update usuarios set email= 'carma@gmail.com' where idusuario = '3';
+-- delete from usuarios where idusuario = 6; 
+update usuarios set telefono= '956834915' where idusuario = 7;
 
 create table roles;
 alter table roles auto_increment = 1;

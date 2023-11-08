@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Canvas = lienzo 2D/3D https://threejs.org-->
+    <div style="width: 50%">
+        <canvas id="migrafico"></canvas>
+    </div>
+
+    <div>
+        <input type="number" min ="0" max="100" placeholder="PHP" id="php">
+        <input type="number" min ="0" max="100" placeholder="Java" id="java">
+        <input type="number" min ="0" max="100" placeholder="Typescript" id="typescript">
+        <input type="number" min ="0" max="100" placeholder="Python" id="python">
+        <input type="number" min ="0" max="100" placeholder="C#" id="csharp">
+        <button type="button" id="mostrar">Mostrar datos</button>
+    </div>
+
+    <!-- CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+        /* FUNCION "$" */
+        function $(id){
+            return document.querySelector(id);
+        }
+
+        /* REFERENCIA */
+
+        const contexto = document.querySelector("#migrafico");
+
+        const grafico = new Chart(contexto, {
+            type: 'line',
+            data: {
+                labels: ["PHP","Java","Typescript","Python","C#"],
+                datasets: [{
+                    label: "2022",
+                    data: [40,30,60,15,25]
+                }]
+            },
+            options:{
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        /* AL DARA CLICK EN EL BOTÓN */
+        $("#mostrar").addEventListener("click", () =>{
+            /* console.log(grafico.data.datasets[0].data); */
+
+            //ACTUALIZAMOS "UN VALOR"
+            /* grafico.data.datasets[0].data[0] = 80;
+            console.log(grafico.data.datasets[0].data[0]); */
+
+            //ACTUALIZAMOS UN CONJUNTO DE DATOS            
+            /* const nuevosDatos = [10,15,25,30,99]
+            grafico.data.datasets[0].data = nuevosDatos; */
+
+            //ACTAULIZAMOS DE DESDE LOS INPUTS
+
+            //YO LO HISE ASÍ
+            //const nuevosValores = $("#php").value;
+
+            //grafico.data.datasets[0].data = nuevosValores;
+
+            //EL PROFE LO HIZO ASÍ
+            const nuevosValores = [
+                parseInt($("#php").value),
+                parseInt($("#java").value),
+                parseInt($("#typescript").value),
+                parseInt($("#python").value),
+                parseInt($("#csharp").value),
+            ];
+
+            grafico.data.datasets[0].data = nuevosValores;
+
+            grafico.update();
+        });
+    </script>
+
+</body>
+</html>

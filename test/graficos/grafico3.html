@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <!-- Canvas = lienzo 2D/3D https://threejs.org-->
+        <div style="width: 50%">
+            <canvas id="migrafico"></canvas>
+        </div>
+    
+        <!-- CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="configuracionesColor.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () =>{
+
+            function $(id){
+                return document.querySelector(id);
+            }
+
+            const datos = [
+                {departamento: "Ica",ventas : 45},
+                {departamento: "Lima",ventas : 65},
+                {departamento: "Ayacucho",ventas : 30},
+                {departamento: "Tacna",ventas : 60}
+            ];
+
+            const contexto = $("#migrafico")
+            const grafico = new Chart(contexto,{
+                type : 'bar',
+                data : {
+
+                    /* con "map" realizamos algo paresido como foreach donde "row" se convierte en el objeto que se encuentra dentro del array.
+                    row solo es una palabra de referencia, que nos sive para identificar a los objetos dento del array
+                    por ejemplo:
+                    ojetoAccesder.map(registro => registro.claveObjeto)
+                    */
+                    labels : datos.map(row => row.departamento),
+                    datasets:[{
+                        label : 'Gráfico de ventas',
+                        data : datos.map(row => row.ventas),
+                        borderColor: coloresBorde,
+                        //con RGB: backgroundColor: ["#23E065","#82E023","B5E023","#E0DB23"],
+                        backgroundColor: coloresFondo,
+                        borderWidth: 5
+                    }] 
+                }
+            });
+        });
+    </script>
+</body>
+</html>
